@@ -1,0 +1,25 @@
+{
+    "name": "riverside/php-express",
+    "description": "PHP micro-framework inspired by Express.js",
+    "type": "library",
+    "version": "1.0.0",
+    "keywords": ["php", "express", "framework", "router", "application"],
+    "homepage": "https://github.com/riverside/php-express",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dimitar Ivanov",
+            "email": "info@zinoui.com",
+            "homepage": "http://zinoui.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpExpress\\": "src/"
+        }
+    }
+}
