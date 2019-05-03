@@ -2,14 +2,14 @@
 
 PHP micro-framework inspired by Express.js
 
-#### Requirements
+### Requirements
 - PHP >= 7.0
 
-#### Installation
+### Installation
 ```
 $ php composer.phar install 
 ```
-#### Routing
+### Routing
 ```php
 <?php
 $app = new \PhpExpress\Application();
@@ -18,7 +18,7 @@ $app->get('/', function ($req, $res) {
      $res->send('hello world');
 });
 ```
-##### Route methods
+#### Route methods
 ```php
 <?php
 // GET method route
@@ -31,7 +31,7 @@ $app->post('/', function ($req, $res) {
     $res->send('POST request to the homepage');
 });
 ```
-##### Route paths
+#### Route paths
 ```php
 <?php
 $app->get('/', function ($req, $res) {
@@ -47,7 +47,7 @@ $app->get('/random.text', function ($req, $res) {
 });
 ```
 
-##### Response methods
+#### Response methods
 | Method             | Description                       |
 | ------------------ | --------------------------------- |
 | $res->end()        | End the response process.         |
@@ -57,7 +57,7 @@ $app->get('/random.text', function ($req, $res) {
 | $res->send()       | Send a response of various types. |
 | $res->sendStatus() | Set the response status code and send its string representation as the response body. |
 
-##### $app->route()
+#### $app->route()
 ```php
 <?php
 $app->route('/book')
@@ -72,7 +72,7 @@ $app->route('/book')
     });
 ```
 
-##### PhpExpress Router
+#### PhpExpress Router
 ```php
 <?php
 $router = new \PhpExpress\Router($app);
