@@ -200,6 +200,7 @@ class Response
         $this->location($path);
 
         $this->sendHeaders();
+        $this->status($status);
         $this->end();
     }
 
