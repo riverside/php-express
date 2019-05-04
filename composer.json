@@ -15,7 +15,6 @@
         }
     ],
     "require": {
-        "ext-apache": "*",
         "ext-json": "*",
         "php": ">=7.0"
     },
