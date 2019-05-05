@@ -102,25 +102,32 @@ class Route
         return $this;
     }
 
-    public function dispatch(string $argument, bool $use = false): self
+    public function dispatch($argument, bool $use = false): self
     {
-        list($className, $method) = explode("@", $argument);
+        if (is_callable($argument))
+        {
+            $argument($this->app->getRequest(), $this->app->getResponse());
 
-        try {
-            $reflectionMethod = new \ReflectionMethod($className, $method);
-            if ($use)
-            {
-                echo $reflectionMethod->invoke(new $className, $this->app->getRequest(), $this->app->getResponse(), function () {
-                    //echo '<pre>';
-                    //print_r($this->app->getResponse()->app->router);
-                });
-            } else {
-                echo $reflectionMethod->invoke(new $className, $this->app->getRequest(), $this->app->getResponse());
+        } elseif (is_string($argument)) {
+
+	        list($className, $method) = explode("@", $argument);
+	
+	        try {
+	            $reflectionMethod = new \ReflectionMethod($className, $method);
+	            if ($use)
+	            {
+	                echo $reflectionMethod->invoke(new $className, $this->app->getRequest(), $this->app->getResponse(), function () {
+	                    //echo '<pre>';
+	                    //print_r($this->app->getResponse()->app->router);
+	                });
+	            } else {
+	                echo $reflectionMethod->invoke(new $className, $this->app->getRequest(), $this->app->getResponse());
+	            }
+	        } catch (\ReflectionException $e) {
+	            printf("%s in %s on line %s", $e->getMessage(), $e->getFile(), $e->getLine());
+	        } catch (\Exception $e) {
+	            printf("%s in %s on line %s", $e->getMessage(), $e->getFile(), $e->getLine());
             }
-        } catch (\ReflectionException $e) {
-            printf("%s in %s on line %s", $e->getMessage(), $e->getFile(), $e->getLine());
-        } catch (\Exception $e) {
-            printf("%s in %s on line %s", $e->getMessage(), $e->getFile(), $e->getLine());
         }
 
         return $this;

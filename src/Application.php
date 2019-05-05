@@ -114,8 +114,7 @@ class Application
     {
         if (!$this->router)
         {
-            //TODO
-            exit('123abc');
+            return;
         }
 
         foreach ($this->router->getRoutes() as $route)
