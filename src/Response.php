@@ -114,7 +114,7 @@ class Response
         return $this->cookie($name, "", $options);
     }
 
-    public function contentType($type): self
+    public function contentType(string $type): self
     {
         return $this->type($type);
     }
@@ -236,7 +236,7 @@ class Response
         return $this;
     }
 
-    public function sendHeader(string $header, bool $replace=true, int $statusCode=0): self
+    protected function sendHeader(string $header, bool $replace=true, int $statusCode=0): self
     {
         if ($statusCode)
         {
@@ -248,7 +248,7 @@ class Response
         return $this;
     }
 
-    public function sendHeaders(): self
+    protected function sendHeaders(): self
     {
         foreach ($this->headers as $field => $value)
         {
@@ -271,9 +271,15 @@ class Response
         return $this->type("text")->status($code)->send($this->statusMessage);
     }
 
-    public function set(string $field, $value): self
+    public function set($field, $value=NULL): self
     {
-        $this->headers[$field] = $value;
+        if (is_array($field)) {
+            foreach ($field as $key => $val) {
+                $this->headers[$key] = $val;
+            }
+        } else {
+            $this->headers[$field] = $value;
+        }
 
         return $this;
     }
