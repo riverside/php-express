@@ -4,17 +4,21 @@ namespace PhpExpress;
 class Request
 {
     public $app;
-    public $cookies = array();
     public $body = array();
+    public $cookies = array();
+    public $files = array();
     public $hostname = NULL;
     public $ip = NULL;
     public $method = NULL;
     public $originalUrl = NULL;
     public $path = NULL;
-    public $route;
+    public $port;
     public $protocol = NULL;
     public $query = array();
+    public $route;
     public $scheme = NULL;
+    public $secure = false;
+    public $session = array();
     public $xhr = 0;
 
     public function __construct($app)
@@ -27,16 +31,21 @@ class Request
         }
 
         $this->app = $app;
-        $this->cookies = $_COOKIE;
         $this->body = $_POST;
+        $this->cookies = $_COOKIE;
+        $this->files = $_FILES;
         $this->hostname = $_SERVER['HTTP_HOST'];
         $this->ip = $_SERVER['REMOTE_ADDR'];
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->originalUrl = $_SERVER['REQUEST_URI'];
         $this->path = $path;
+        $this->port = $_SERVER['SERVER_PORT'];
         $this->protocol = $_SERVER['SERVER_PROTOCOL'];
         $this->query = $_GET;
+        $this->route = '';//FIXME;
         $this->scheme = $_SERVER['REQUEST_SCHEME'];
+        $this->secure = $_SERVER['REQUEST_SCHEME'] == 'https';
+        $this->session = $_SESSION;
         $this->xhr = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' ? 1 : 0;
     }
 
