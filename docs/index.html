@@ -1,10 +1,80 @@
 <!doctype html>
 <html>
 <head>
-    <title>PHP Express micro-framework</title>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PHP Express micro-framework</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/docs.css">
 </head>
 <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="./">PHP Express</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="./">Home</a></li>
+                    <li><a href="api.html">API</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
+    <div class="container" id="main">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>php-express</h1>
+                <p>PHP micro-framework inspired by Express.js</p>
+                <section>
+                    <h3>Requirements</h3>
+                    <p>PHP >= 7.0</p>
+                </section>
+                <section>
+                    <h3>Installation</h3>
+                    <p>If Composer is not installed on your system yet, you may go ahead and install it using this command line:</p>
+                    <pre class="prettyprint">$ curl -sS https://getcomposer.org/installer | php</pre>
+                    <p>Next, add the following require entry to the <code>composer.json</code> file in the root of your project.</p>
+                    <pre class="prettyprint">{
+    "require" : {
+        "riverside/php-express" : "*"
+    }
+}</pre>
+                    <p>Finally, use Composer to install php-express and its dependencies:</p>
+                    <pre class="prettyprint">$ php composer.phar install</pre>
+                </section>
+                <section>
+                    <h3>Source</h3>
+                    <p>PHP Express is hosted on GitHub. <a href="https://github.com/riverside/php-express">View project on GitHub</a></p>
+                </section>
+                <section>
+                    <h3>Downloads</h3>
+                    <p>
+                        <a class="btn btn-primary" href="https://github.com/riverside/php-express/archive/master.zip">Download .zip file</a>
+                        <a class="btn btn-primary" href="https://github.com/riverside/php-express/archive/master.tar.gz">Download .tar.gz file</a>
+                    </p>
+                </section>
+                <section>
+                    <h3>Author</h3>
+                    <p>PHP Express is developed by Dimitar Ivanov. You can find me on <a target="_blank" href="https://twitter.com/DimitarIvanov">Twitter</a>
+                        or <a href="https://github.com/riverside">GitHub</a>.</p>
+                </section>
+                <section>
+                    <h3>License</h3>
+                    <p>PHP Express is licensed under the <a href="https://github.com/riverside/php-express/blob/master/LICENSE">MIT</a> license.</p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/run_prettify.js"></script>
 </body>
 </html>

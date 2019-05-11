@@ -1,0 +1,31 @@
+#menu {
+    position: fixed;
+    top: 71px;
+    left: calc((100% - 1170px)/2);
+    overflow-y: auto;
+}
+#menu.nav>li>a {
+    padding: 5px 15px;
+}
+#menu.nav .nav {
+    height: 0;
+    overflow: hidden;
+}
+#menu.nav .nav>li>a {
+    padding: 5px 15px 5px 30px;
+}
+#menu.nav .nav>li.active {
+    background-color: #ccc;
+}
+#menu.nav .nav.active{
+    height: auto;
+}
+#main {
+    margin-top: 71px;
+}
+pre.prettyprint {
+    padding: 9.5px !important;
+}
+section {
+    margin: 20px 0;
+}

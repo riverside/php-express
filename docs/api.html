@@ -1,0 +1,618 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PHP Express micro-framework</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/docs.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-default navbar-fixed-top" id="nav">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="./">PHP Express</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="./">Home</a></li>
+                    <li class="active"><a href="api.html">API</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" id="main">
+        <div class="row">
+            <div class="col-md-2" role="complementary">
+                <nav class="hidden-sm hidden-xs">
+                    <ul class="nav" id="menu">
+                        <li><a href="#application">Application</a>
+                            <ul class="nav">
+                                <li><a href="#app-delete">delete()</a></li>
+                                <li><a href="#app-disable">disable()</a></li>
+                                <li><a href="#app-disabled">disabled()</a></li>
+                                <li><a href="#app-enable">enable()</a></li>
+                                <li><a href="#app-enabled">enabled()</a></li>
+                                <li><a href="#app-get">get()</a></li>
+                                <li><a href="#app-getRequest">getRequest()</a></li>
+                                <li><a href="#app-getResponse">getResponse()</a></li>
+                                <li><a href="#app-local">local()</a></li>
+                                <li><a href="#app-post">post()</a></li>
+                                <li><a href="#app-put">put()</a></li>
+                                <li><a href="#app-render">render()</a></li>
+                                <li><a href="#app-route">route()</a></li>
+                                <li><a href="#app-run">run()</a></li>
+                                <li><a href="#app-set">set()</a></li>
+                                <li><a href="#app-use">use()</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#request">Request</a>
+                            <ul class="nav">
+                                <li><a href="#req-properties">Properties</a></li>
+                                <li><a href="#req-app">app</a></li>
+                                <li><a href="#req-body">body</a></li>
+                                <li><a href="#req-cookies">cookies</a></li>
+                                <li><a href="#req-files">files</a></li>
+                                <li><a href="#req-hostname">hostname</a></li>
+                                <li><a href="#req-ip">ip</a></li>
+                                <li><a href="#req-method">method</a></li>
+                                <li><a href="#req-originalUrl">originalUrl</a></li>
+                                <li><a href="#req-path">path</a></li>
+                                <li><a href="#req-port">port</a></li>
+                                <li><a href="#req-protocol">protocol</a></li>
+                                <li><a href="#req-query">query</a></li>
+                                <li><a href="#req-route">route</a></li>
+                                <li><a href="#req-scheme">scheme</a></li>
+                                <li><a href="#req-secure">secure</a></li>
+                                <li><a href="#req-session">session</a></li>
+                                <li><a href="#req-xhr">xhr</a></li>
+                                <li><a href="#req-methods">Methods</a></li>
+                                <li><a href="#req-get">get()</a></li>
+                                <li><a href="#req-header">header()</a></li>
+                                <li><a href="#req-is">is()</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#response">Response</a>
+                            <ul class="nav">
+                                <li><a href="#res-append">append()</a></li>
+                                <li><a href="#res-clearCookie">clearCookie()</a></li>
+                                <li><a href="#res-contentType">contentType()</a></li>
+                                <li><a href="#res-cookie">cookie()</a></li>
+                                <li><a href="#res-end">end()</a></li>
+                                <li><a href="#res-get">get()</a></li>
+                                <li><a href="#res-getHeaders">getHeaders()</a></li>
+                                <li><a href="#res-header">header()</a></li>
+                                <li><a href="#res-json">json()</a></li>
+                                <li><a href="#res-location">location()</a></li>
+                                <li><a href="#res-redirect">redirect()</a></li>
+                                <li><a href="#res-render">render()</a></li>
+                                <li><a href="#res-send">send()</a></li>
+                                <li><a href="#res-sendStatus">sendStatus()</a></li>
+                                <li><a href="#res-set">set()</a></li>
+                                <li><a href="#res-status">status()</a></li>
+                                <li><a href="#res-type">type()</a></li>
+                                <li><a href="#res-vary">vary()</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#router">Router</a>
+                            <ul class="nav">
+                                <li><a href="#router-delete">delete()</a></li>
+                                <li><a href="#router-get">get()</a></li>
+                                <li><a href="#router-head">head()</a></li>
+                                <li><a href="#router-options">options()</a></li>
+                                <li><a href="#router-patch">patch()</a></li>
+                                <li><a href="#router-post">post()</a></li>
+                                <li><a href="#router-put">put()</a></li>
+                                <li><a href="#router-route">route()</a></li>
+                                <li><a href="#router-run">run()</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div><!-- .col-md-2 -->
+            <div class="col-md-10" role="main">
+                <!-- Application -->
+                <h2 class="h3" id="application">Application</h2>
+                <p>The app object conventionally denotes the PHP Express application.</p>
+                <pre class="prettyprint">$app = new \PhpExpress\Application();</pre>
+                <section>
+                    <h3 class="h4" id="app-delete">delete(string $path, $callback)</h3>
+                    <p>Routes HTTP DELETE requests to the specified path with the specified callback function.</p>
+                    <pre class="prettyprint">
+$app->delete('/', function ($req, $res) {
+    $res->send('DELETE request to homepage');
+});
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-disable">disable(string $name)</h3>
+                    <p>Sets the Boolean setting name to <code>false</code>.</p>
+                    <pre class="prettyprint">$app->disable('trust proxy');</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-disabled">disabled(string $name)</h3>
+                    <p>Returns <code>true</code> if the Boolean setting name is disabled (false)</p>
+                    <pre class="prettyprint">$app->disabled('trust proxy');</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-enable">enable(string $name)</h3>
+                    <p>Sets the Boolean setting name to <code>true</code>.</p>
+                    <pre class="prettyprint">$app->enable('trust proxy');</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-enabled">enabled(string $name)</h3>
+                    <p>Returns <code>true</code> if the setting name is enabled (true).</p>
+                    <pre class="prettyprint">$app->enabled('trust proxy');</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-get">get(string $path, $callback)</h3>
+                    <p>Routes HTTP GET requests to the specified path with the specified callback function.</p>
+                    <pre class="prettyprint">
+$app->get('/', function ($req, $res) {
+    $res->send('GET request to homepage');
+});
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-getRequest">getRequest()</h3>
+                    <p>Return an instance of request object.</p>
+                    <pre class="prettyprint">$req = $app->getRequest();</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-getResponse">getResponse()</h3>
+                    <p>Return an instance of response object.</p>
+                    <pre class="prettyprint">$res = $app->getResponse();</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-local">local([string $name = null] [, $value = null])</h3>
+                    <p></p>
+                    <pre class="prettyprint">
+$app->local(); // getter
+$app->local('name', 'Johnny Bravo'); // setter
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-post">post(string $path, $callback)</h3>
+                    <p>Routes HTTP POST requests to the specified path with the specified callback function.</p>
+                    <pre class="prettyprint">
+$app->post('/', function ($req, $res) {
+    $res->send('POST request to homepage');
+});</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-put">put(string $path, $callback)</h3>
+                    <p>Routes HTTP PUT requests to the specified path with the specified callback function.</p>
+                    <pre class="prettyprint">
+$app->put('/', function ($req, $res) {
+    $res->send('PUT request to homepage');
+});</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-render">render(string $view [, array $locals=array()])</h3>
+                    <p>Returns the rendered HTML of a view. It accepts an optional parameter
+                        that is an array containing local variables for the view. It is like <code>$res->render()</code>,
+                        except it cannot send the rendered view to the client on its own.</p>
+                    <pre class="prettyprint">$app->render('index');</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-route">route(string $path)</h3>
+                    <p>Returns an instance of a single route, which you can then use to handle HTTP verbs with optional
+                        middleware. Use <code>$app->route()</code> to avoid duplicate route names (and thus typo errors).</p>
+                    <pre class="prettyprint">
+$app->route('/events')
+->get(function ($req, $res) {
+    $res->render('events');
+})
+->post(function ($req, $res) {
+    $res->json(array('status' => 'OK'));
+});
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-run">run()</h3>
+                    <p>Run the application.</p>
+                    <pre class="prettyprint">$app->run();</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-set">set(string $field [, $value])</h3>
+                    <p>Assigns setting name to value.</p>
+                    <pre class="prettyprint">$app->set('title', 'My Site');</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-use">use(string $path)</h3>
+                    <p>Mounts the specified middleware function at the specified path: the middleware function is executed when the base of the requested path matches path.</p>
+                    <pre class="prettyprint">
+$app->use(function ($req, $res) {
+    printf('Time: %u', time());
+});</pre>
+                </section>
+                <!-- Request -->
+                <h2 class="h3" id="request">Request</h2>
+                <section>
+                    <h3 class="h4" id="req-properties">Properties</h3>
+                    <p></p>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-app">app</h3>
+                    <p>This property holds a reference to the instance of the PHP Express application that is using the middleware.</p>
+                    <pre class="prettyprint">$req->app</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-body">body</h3>
+                    <p>An associative array of variables passed to the current script via the HTTP POST method when using
+                        <i>application/x-www-form-urlencoded</i> or <i>multipart/form-data</i> as the HTTP Content-Type
+                        in the request.</p>
+                    <pre class="prettyprint">$req->body['name']
+// => "Dimitar"</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-cookies">cookies</h3>
+                    <p>An associative array of variables passed to the current script via HTTP Cookies.</p>
+                    <pre class="prettyprint">$req->cookies['name']
+// => "Dimitar"</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-files">files</h3>
+                    <p>An associative array of items uploaded to the current script via the HTTP POST method.</p>
+                    <pre class="prettyprint">$req->files['avatar']
+/* => Array
+(
+    [name] => avatar.png
+    [type] => image/png
+    [size] => 15476
+    [tmp_name] => /tmp/phpn3FmFr
+    [error] => 0
+) */
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-hostname">hostname</h3>
+                    <p>Contents of the Host: header from the current request, if there is one.</p>
+                    <pre class="prettyprint">$req->hostname
+// => "example.com"</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-ip">ip</h3>
+                    <p>The IP address from which the user is viewing the current page.</p>
+                    <pre class="prettyprint">$req->ip
+// => "127.0.0.1"</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-method">method</h3>
+                    <p>Which request method was used to access the page; i.e. 'GET', 'HEAD', 'POST', 'PUT', etc.</p>
+                    <pre class="prettyprint">$req->method
+// => "GET"</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-originalUrl">originalUrl</h3>
+                    <p>The URI which was given in order to access this page.</p>
+                    <pre class="prettyprint">$req->originalUrl
+// => "/search?q=something"</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-path">path</h3>
+                    <p>Contains the path part of the request URL.</p>
+                    <pre class="prettyprint">$req->path
+// => "/search"</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-port">port</h3>
+                    <p>The port on the server machine being used by the web server for communication. For default setups,
+                        this will be '80'; using SSL, for instance, will change this to whatever your defined secure HTTP port is. </p>
+                    <pre class="prettyprint">$req->port
+// => "80"</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-protocol">protocol</h3>
+                    <p>Name and revision of the information protocol via which the page was requested.</p>
+                    <pre class="prettyprint">$req->protocol
+// => "HTTP/1.1"</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-route">route</h3>
+                    <p>Contains the currently-matched route, a string. For example:</p>
+                    <pre class="prettyprint">$req->route
+// => "/"</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-query">query</h3>
+                    <p>An associative array of variables passed to the current script via the URL parameters.</p>
+                    <pre class="prettyprint">$req->query['q']
+// => "something"</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-scheme">scheme</h3>
+                    <p>Name of the information protocol via which the page was requested.</p>
+                    <pre class="prettyprint">$req->scheme
+// => "http"</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-secure">secure</h3>
+                    <p>A Boolean property that is <code>true</code> if a TLS connection is established.</p>
+                    <pre class="prettyprint">$req->secure
+// => true</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-session">session</h3>
+                    <p>An associative array containing session variables available to the current script.</p>
+                    <pre class="prettyprint">$req->session['user']
+// => "admin"</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-xhr">xhr</h3>
+                    <p>A Boolean property that is <code>true</code> if the request's X-Requested-With header field is
+                        "XMLHttpRequest", indicating that the request was issued by a client library such as jQuery.</p>
+                    <pre class="prettyprint">
+$req->xhr
+// => true
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-methods">Methods</h3>
+                    <p></p>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-get">get(string $name)</h3>
+                    <p>Returns the specified HTTP request header field (case-insensitive match).</p>
+                    <pre class="prettyprint">$req->get('Content-Type');</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-header">header(string $name)</h3>
+                    <p>Alias of <a href="#req-get">get()</a></p>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-is">is(string $type)</h3>
+                    <p>Returns the matching content type if the incoming request's "Content-Type" HTTP header field matches the MIME type specified by the type parameter.</p>
+                    <pre class="prettyprint">$req->is('html');</pre>
+                </section>
+                <!-- Response -->
+                <h2 class="h3" id="response">Response</h2>
+                <section>
+                    <h3 class="h4" id="res-append">append(string $field, $value)</h3>
+                    <p>Appends the specified value to the HTTP response header field. If the header is not already set, it creates the header with the specified value. The value parameter can be a string or an array.</p>
+                    <pre class="prettyprint">
+$res->append('Set-Cookie', 'foo=bar; Path=/; HttpOnly');
+$res->append('Warning', '199 Miscellaneous warning');
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-clearCookie">clearCookie(string $name [, array $options=array()])</h3>
+                    <p>Clears the cookie specified by name.</p>
+                    <pre class="prettyprint">
+$res->cookie('name', 'Dimitar', array('path' => '/admin'));
+$res->clearCookie('name', array('path' => '/admin'));
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-contentType">contentType(string $type)</h3>
+                    <p>Alias of <a href="#res-type">type()</a></p>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-cookie">cookie(string $name, string $value [, array $options=array()])</h3>
+                    <p>Sets cookie name to value. The value parameter may be a <code>string</code> or <code>array</code>
+                        converted to JSON.</p>
+                    <pre class="prettyprint">
+$res->cookie('name', 'Dimitar', array('domain' => '.example.com', 'path' => '/admin', 'secure' => true));
+$res->cookie('rememberme', '1', array('expires' => time()+60*60*24*30, 'httpOnly' => true));
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-end">end([string $data = NULL])</h3>
+                    <p>Ends the response process. Use to quickly end the response without any data.</p>
+                    <pre class="prettyprint">
+$res->end();
+$res->status(404)->end();</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-get">get(string $field)</h3>
+                    <p>Returns the HTTP response header specified by field. The match is case-insensitive.</p>
+                    <pre class="prettyprint">
+$res->get('Content-Type');
+// => "text/plain"
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-getHeaders">getHeaders()</h3>
+                    <p>Return an array with response headers.</p>
+                    <pre class="prettyprint">
+$res->getHeaders();
+/* => Array
+(
+    [X-Frame-Options] => sameorigin
+    [X-XSS-Protection] => 1; mode=block
+    [Connection] => keep-alive
+) */</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-header">header(string $field, $value)</h3>
+                    <p>Alias of <a href="#res-set">set()</a></p>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-json">json($body)</h3>
+                    <p>Sends a JSON response. This method sends a response (with the correct content-type) that is the
+                        parameter converted to a JSON string using <code>json_encode()</code>.</p>
+                    <pre class="prettyprint">
+$res->json(null);
+$res->json(array('user' => 'Dimitar'));
+$res->status(500)->json(array('error' => 'message'));
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-location">location(string $path)</h3>
+                    <p>Sets the response Location HTTP header to the specified path parameter.</p>
+                    <pre class="prettyprint">
+$res->location('/foo/bar');
+$res->location('http://example.com');
+$res->location('back');
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-redirect">redirect(string $path [, int $status = 302])</h3>
+                    <p>Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code.</p>
+                    <pre class="prettyprint">
+$res->redirect('/foo/bar');
+$res->redirect('http://example.com', 301);
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-render">render(string $view [, array $locals = array()])</h3>
+                    <p>Renders a view and sends the rendered HTML string to the client.</p>
+                    <pre class="prettyprint">$res->render('index');</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-send">send($body)</h3>
+                    <p>Sends the HTTP response.</p>
+                    <pre class="prettyprint">
+$res->send(array('some' => 'json'));
+$res->send('&lt;p&gt;some html&lt;/p&gt;');
+$res->status(404)->send('Sorry, we cannot find that!');
+$res->status(500)->send(array('error' => 'something blew up'));
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-sendStatus">sendStatus(int $code)</h3>
+                    <p>Sets the response HTTP status code to statusCode and send its string representation as the response body.</p>
+                    <pre class="prettyprint">
+$res->sendStatus(200); // equivalent to $res->status(200)->send('OK')
+$res->sendStatus(403); // equivalent to $res->status(403)->send('Forbidden')
+$res->sendStatus(404); // equivalent to $res->status(404)->send('Not Found')
+$res->sendStatus(500); // equivalent to $res->status(500)->send('Internal Server Error')
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-set">set($field [, $value])</h3>
+                    <p>Sets the response's HTTP header field to value. To set multiple fields at once, pass an
+                        <code>array</code> as the parameter.</p>
+                    <pre class="prettyprint">
+$app->get('/readme.txt', function ($req, $res) {
+    $res->set('Content-Type', 'text/plain');
+    $res->set(array(
+        'X-XSS-Protection' => '1; mode=block',
+        'Connection' => 'keep-alive',
+    ));
+});</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-status">status(int $code)</h3>
+                    <p>Sets the HTTP status for the response. </p>
+                    <pre class="prettyprint">
+$res->status(403)->end();
+$res->status(400)->send('Bad Request');
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-type">type(string $value)</h3>
+                    <p>Sets the Content-Type HTTP header to the MIME type as determined by mime.lookup() for the specified type.</p>
+                    <pre class="prettyprint">
+$res->type('html');               // => 'text/html'
+$res->type('text');               // => 'text/plain'
+$res->type('json');               // => 'application/json'
+$res->type('application/json');   // => 'application/json'
+$res->type('png');                // => 'image/png'
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-vary">vary(string $value)</h3>
+                    <p>Adds the field to the Vary response header, if it is not there already.</p>
+                    <pre class="prettyprint">$res->vary('User-Agent')->render('docs');</pre>
+                </section>
+                <!-- Router -->
+                <section>
+                    <h2 class="h3" id="router">Router</h2>
+                    <p>A router object is an isolated instance of middleware and routes. You can think of it as a "mini-application,"
+                        capable only of performing middleware and routing functions. Every php-express application has a built-in app router.</p>
+                    <pre class="prettyprint">$router = new \PhpExpress\Router();</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="router-delete">delete(string $path, $callback)</h3>
+                    <p>Routes HTTP DELETE requests to the specified path with the specified callback function.</p>
+                    <pre class="prettyprint">
+$router->delete('/', function($req, $res){
+    $res->json(array('status' => 'OK'));
+});</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="router-get">get(string $path, $callback)</h3>
+                    <p>Routes HTTP GET requests to the specified path with the specified callback function.</p>
+                    <pre class="prettyprint">
+$router->get('/', function($req, $res){
+    $res->send('hello world');
+});</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="router-head">head(string $path, $callback)</h3>
+                    <p>Routes HTTP HEAD requests to the specified path with the specified callback function.</p>
+                    <pre class="prettyprint">
+$router->head('/', function($req, $res){
+    $res->status(401)->end();
+});</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="router-options">options(string $path, $callback)</h3>
+                    <p>Routes HTTP OPTIONS requests to the specified path with the specified callback function.</p>
+                    <pre class="prettyprint">
+$router->options('/', function($req, $res){
+    $res->json(array('status' => 'OK'));
+});</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="router-patch">patch(string $path, $callback)</h3>
+                    <p>Routes HTTP PATCH requests to the specified path with the specified callback function.</p>
+                    <pre class="prettyprint">
+$router->patch('/', function($req, $res){
+    $res->json(array('status' => 'OK'));
+});</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="router-post">post(string $path, $callback)</h3>
+                    <p>Routes HTTP POST requests to the specified path with the specified callback function.</p>
+                    <pre class="prettyprint">
+$router->post('/', function($req, $res){
+    $res->json(array('status' => 'OK'));
+});</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="router-put">put(string $path, $callback)</h3>
+                    <p>Routes HTTP PUT requests to the specified path with the specified callback function.</p>
+                    <pre class="prettyprint">
+$router->put('/', function($req, $res){
+    $res->json(array('status' => 'OK'));
+});</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="router-route">route(string $path)</h3>
+                    <p>Returns an instance of a single route which you can then use to handle HTTP verbs with optional middleware.
+                        Use <code>$router->route()</code> to avoid duplicate route naming and thus typing errors.</p>
+                    <pre class="prettyprint">
+$router->route('/invoices')
+->get(function ($req, $res) {
+    $res->render('invoices');
+})
+->post(function ($req, $res) {
+    $res->json(array('status' => 'OK'));
+});</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="router-run">run()</h3>
+                    <p>Run the application.</p>
+                    <pre class="prettyprint">$router->run();</pre>
+                </section>
+            </div><!-- .col-md-10 -->
+        </div><!-- .row -->
+    </div><!-- .container -->
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/run_prettify.js"></script>
+    <script src="js/docs.js"></script>
+</body>
+</html>
