@@ -6,6 +6,19 @@ PHP micro-framework inspired by Express.js
 - PHP >= 7.0
 
 ### Installation
+If Composer is not installed on your system yet, you may go ahead and install it using this command line:
+```
+$ curl -sS https://getcomposer.org/installer | php
+```
+Next, add the following require entry to the <code>composer.json</code> file in the root of your project.
+```json
+{
+    "require" : {
+        "riverside/php-express" : "*"
+    }
+}
+```
+Finally, use Composer to install php-express and its dependencies:
 ```
 $ php composer.phar install 
 ```
