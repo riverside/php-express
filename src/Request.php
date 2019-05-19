@@ -45,7 +45,7 @@ class Request
         $this->route = '';//FIXME;
         $this->scheme = $_SERVER['REQUEST_SCHEME'];
         $this->secure = $_SERVER['REQUEST_SCHEME'] == 'https';
-        $this->session = $_SESSION;
+        $this->session = isset($_SESSION) ? $_SESSION : array();
         $this->xhr = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' ? 1 : 0;
     }
 
