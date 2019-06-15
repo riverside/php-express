@@ -49,7 +49,7 @@ class Request
         $this->xhr = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' ? 1 : 0;
     }
 
-    public function get(string $name): ?string
+    public static function get(string $name): ?string
     {
         $name = strtolower($name);
 
@@ -67,14 +67,14 @@ class Request
         return null;
     }
 
-    public function header(string $name): ?string
+    public static function header(string $name): ?string
     {
-        return $this->get($name);
+        return self::get($name);
     }
 
-    public function is(string $type): bool
+    public static function is(string $type): bool
     {
-        $contentType = $this->get("content-type");
+        $contentType = self::get("content-type");
         list($contentType,) = explode(";", $contentType);
 
         return $contentType == $type;
