@@ -1,5 +1,5 @@
 # php-express
-[![Build Status](https://api.travis-ci.org/riverside/php-express.svg)](https://travis-ci.org/riverside/php-express) [![License](https://poser.pugx.org/riverside/php-express/license)](https://packagist.org/packages/riverside/php-express)
+[![Build Status](https://api.travis-ci.org/riverside/php-express.svg)](https://travis-ci.org/riverside/php-express) [![Latest Stable Version](https://poser.pugx.org/riverside/php-express/v/stable)](https://packagist.org/packages/riverside/php-express) [![License](https://poser.pugx.org/riverside/php-express/license)](https://packagist.org/packages/riverside/php-express)
 
 PHP micro-framework inspired by Express.js
 
