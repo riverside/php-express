@@ -11,8 +11,12 @@
     height: 0;
     overflow: hidden;
 }
-#menu.nav .nav>li>a {
+#menu.nav .nav>li>a,
+#menu.nav .nav>li>span {
     padding: 5px 15px 5px 30px;
+}
+#menu.nav .nav>li>span {
+    font-weight: 700;
 }
 #menu.nav .nav>li.active {
     background-color: #ccc;
