@@ -16,6 +16,11 @@ class Application
 
     protected $response;
 
+    protected $patterns = array(
+        ':id'   => '(\d+)',
+        ':hash' => '([a-f\d+]{32})'
+    );
+
     public function __construct()
     {
         $this->request = new Request($this);
@@ -120,10 +125,24 @@ class Application
         foreach ($this->router->getRoutes() as $route)
         {
             $match1 = in_array($route->getMethod(), array('all', strtolower($this->request->method)));
-            $match2 = $route->getPath() == $this->request->path;
+            $pattern = sprintf("#^%s$#", str_replace(array_keys($this->patterns), array_values($this->patterns), $route->getPath()));
+            $match2 = null;
+            preg_match($pattern, $this->request->path, $match2);
 
             if ($match1 && $match2)
             {
+                array_shift($match2);
+                foreach ($match2 as $match)
+                {
+                    foreach ($this->patterns as $param => $pattern)
+                    {
+                        if (preg_match("#^$pattern$#", $match))
+                        {
+                            $this->request->params[substr($param, 1)] = $match;
+                        }
+                    }
+                }
+                
                 $use = $route->getMethod() == "use";
 
                 foreach ($route->getCallback() as $callback)
@@ -160,7 +179,7 @@ class Application
 
     public function use(string $path): self
     {
-        if (func_get_args() < 2)
+        if (func_num_args() < 2)
         {
             return $this;
         }
