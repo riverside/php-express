@@ -206,6 +206,8 @@ class Response
 
     public function render(string $view, array $locals = array()): void
     {
+        $this->sendHeaders();
+        $this->status(200);
         $this->app->render($view, $locals);
     }
 
