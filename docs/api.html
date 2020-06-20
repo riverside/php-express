@@ -256,11 +256,18 @@ $app->route('/events')
                     <pre class="prettyprint">$app->set('title', 'My Site');</pre>
                 </section>
                 <section>
-                    <h3 class="h4" id="app-use">use(string $path)</h3>
+                    <h3 class="h4" id="app-use">use(string $path, $callback)</h3>
                     <p>Mounts the specified middleware function at the specified path: the middleware function is executed when the base of the requested path matches path.</p>
                     <pre class="prettyprint">
+// If miss to specify a path, will mount the middleware on every request
 $app->use(function ($req, $res) {
-    printf('Time: %u', time());
+    $res->header('X-Frame-Options', 'DENY');
+    $res->header('X-Content-Type-Options', 'nosniff');
+});
+
+// Will mount the middleware only if path match the specified pattern
+$app->use('users/edit/:id/', function ($req, $res) {
+    $res->header('Access-Control-Allow-Origin', '*');
 });</pre>
                 </section>
                 <!-- Request -->
