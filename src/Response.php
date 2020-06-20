@@ -250,18 +250,37 @@ class Response
         return $this;
     }
 
+    protected function proceedHeader(string $name, $value)
+    {
+        if (is_string($value) && strlen($value) > 0)
+        {
+            $this->sendHeader("$name: $value");
+        } else {
+            $this->removeHeader($name);
+        }
+        
+        return $this;
+    }
+    
+    protected function removeHeader(string $name): self
+    {
+        header_remove($name);
+        
+        return $this;
+    }
+
     protected function sendHeaders(): self
     {
-        foreach ($this->headers as $field => $value)
+        foreach ($this->headers as $name => $value)
         {
             if (is_array($value))
             {
                 foreach ($value as $val)
                 {
-                    $this->sendHeader("$field: $val");
+                    $this->proceedHeader($name, $val);
                 }
             } else {
-                $this->sendHeader("$field: $value");
+                $this->proceedHeader($name, $value);
             }
         }
 
