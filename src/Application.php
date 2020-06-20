@@ -124,38 +124,56 @@ class Application
 
         foreach ($this->router->getRoutes() as $route)
         {
-            $match1 = in_array($route->getMethod(), array('all', strtolower($this->request->method)));
-            $pattern = sprintf("#^%s$#", str_replace(array_keys($this->patterns), array_values($this->patterns), $route->getPath()));
-            $match2 = null;
-            preg_match($pattern, $this->request->path, $match2);
-
-            if ($match1 && $match2)
+            $match1 = in_array($route->getMethod(), array('all', 'use', strtolower($this->request->method)));
+            if (!$match1)
             {
-                array_shift($match2);
-                foreach ($match2 as $match)
+                continue;
+            }
+            
+            $use = $route->getMethod() == "use";
+            
+            $pattern = sprintf("#^%s$#", str_replace(array_keys($this->patterns), array_values($this->patterns), $route->getPath()));
+            if (!$use)
+            {
+            	$match2 = null;
+                if (!preg_match($pattern, $this->request->path, $match2))
+            	{
+                    continue;
+                } else {
+                	array_shift($match2);
+                    $this->setParams($match2);
+				}
+            } else {
+                if (!($route->getPath() == '*' || preg_match($pattern, $this->request->path)))
                 {
-                    foreach ($this->patterns as $param => $pattern)
-                    {
-                        if (preg_match("#^$pattern$#", $match))
-                        {
-                            $this->request->params[substr($param, 1)] = $match;
-                        }
-                    }
-                }
-                
-                $use = $route->getMethod() == "use";
+                    continue;
+				}
+			}
 
-                foreach ($route->getCallback() as $callback)
+            foreach ($route->getCallback() as $callback)
+            {
+                if (is_array($callback))
                 {
-                    if (is_array($callback))
+                    foreach ($callback as $arg)
                     {
-                        foreach ($callback as $arg)
-                        {
-                            $route->dispatch($arg, $use);
-                        }
-                    } else {
-                        $route->dispatch($callback, $use);
+                        $route->dispatch($arg, $use);
                     }
+                } else {
+                    $route->dispatch($callback, $use);
+                }
+            }
+        }
+    }
+
+    protected function setParams($match2)
+    {
+        foreach ($match2 as $match)
+        {
+            foreach ($this->patterns as $param => $pattern)
+            {
+                if (preg_match("#^$pattern$#", $match))
+                {
+                    $this->request->params[substr($param, 1)] = $match;
                 }
             }
         }
@@ -177,14 +195,27 @@ class Application
         return $this;
     }
 
-    public function use(string $path): self
+    public function use(): self
     {
-        if (func_num_args() < 2)
+        $num_args = func_num_args();
+        if (!$num_args)
         {
             return $this;
         }
 
-        $arguments = array_slice(func_get_args(), 1);
+        $args = func_get_args();
+        switch ($num_args)
+        {
+            case 1:
+                $path = '*';
+                $offset = 0;
+                break;
+            default:
+                $path = $args[0];
+                $offset = 1;
+        }
+
+        $arguments = array_slice($args, $offset);
 
         $this->lazyrouter();
 
