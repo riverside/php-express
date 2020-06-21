@@ -22,7 +22,7 @@ class Request
     public $session = array();
     public $xhr = 0;
 
-    public function __construct($app)
+    public function __construct(Application $app)
     {
         if (isset($_GET['_path_'])) {
             $path = $_GET['_path_'];

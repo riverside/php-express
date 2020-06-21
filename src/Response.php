@@ -81,13 +81,13 @@ class Response
         511 => 'Network Authentication Required' // RFC 6585
     );
 
-    public function __construct($app)
+    public function __construct(Application $app)
     {
         $this->app = $app;
         $this->headersSent = headers_sent() ? 1 : 0;
     }
 
-    public function append(string $field, $value): self
+    public function append(string $field, $value): Response
     {
         $prev = $this->get($field);
 
@@ -104,7 +104,7 @@ class Response
         return $this->set($field, $value);
     }
 
-    public function clearCookie(string $name, array $options=array()): self
+    public function clearCookie(string $name, array $options=array()): Response
     {
         $options = array_merge(array(
             'expire' => time() - 3600,
@@ -114,12 +114,12 @@ class Response
         return $this->cookie($name, "", $options);
     }
 
-    public function contentType(string $type): self
+    public function contentType(string $type): Response
     {
         return $this->type($type);
     }
 
-    public function cookie(string $name, string $value, array $options=array()): self
+    public function cookie(string $name, string $value, array $options=array()): Response
     {
         $expire = isset($options['expire']) ? $options['expire'] : 0;
         $path = isset($options['path']) ? $options['path'] : "";
@@ -174,12 +174,12 @@ class Response
         return $this->headers;
     }
 
-    public function header(string $field, $value): self
+    public function header(string $field, $value): Response
     {
         return $this->set($field, $value);
     }
 
-    public function json($body): self
+    public function json($body): Response
     {
         $body = json_encode($body);
 
@@ -190,7 +190,7 @@ class Response
         return $this->send($body);
     }
 
-    public function location(string $path): self
+    public function location(string $path): Response
     {
         return $this->set("Location", $path);
     }
@@ -211,7 +211,7 @@ class Response
         $this->app->render($view, $locals);
     }
 
-    public function send($body): self
+    public function send($body): Response
     {
         $this->sendHeaders();
 
@@ -238,7 +238,7 @@ class Response
         return $this;
     }
 
-    protected function sendHeader(string $header, bool $replace=true, int $statusCode=0): self
+    protected function sendHeader(string $header, bool $replace=true, int $statusCode=0): Response
     {
         if ($statusCode)
         {
@@ -250,26 +250,26 @@ class Response
         return $this;
     }
 
-    protected function proceedHeader(string $name, $value)
+    protected function proceedHeader(string $name, $value): Response
     {
         if (is_string($value) && strlen($value) > 0)
         {
             $this->sendHeader("$name: $value");
-        } else {
+        } elseif ($value === false) {
             $this->removeHeader($name);
         }
         
         return $this;
     }
     
-    protected function removeHeader(string $name): self
+    protected function removeHeader(string $name): Response
     {
         header_remove($name);
         
         return $this;
     }
 
-    protected function sendHeaders(): self
+    protected function sendHeaders(): Response
     {
         foreach ($this->headers as $name => $value)
         {
@@ -287,12 +287,12 @@ class Response
         return $this;
     }
 
-    public function sendStatus(int $code): self
+    public function sendStatus(int $code): Response
     {
         return $this->type("text")->status($code)->send($this->statusMessage);
     }
 
-    public function set($field, $value=NULL): self
+    public function set($field, $value=NULL): Response
     {
         if (is_array($field)) {
             foreach ($field as $key => $val) {
@@ -305,7 +305,7 @@ class Response
         return $this;
     }
 
-    public function status(int $code): self
+    public function status(int $code): Response
     {
         $this->statusCode = $code;
 
@@ -316,7 +316,7 @@ class Response
         return $this;
     }
 
-    public function type(string $value): self
+    public function type(string $value): Response
     {
         $value = strtolower($value);
 
@@ -339,6 +339,7 @@ class Response
                 break;
             case "png":
             case "gif":
+            case "webp":
                 $value = "image/$value";
                 break;
             case "jpg":
@@ -350,7 +351,7 @@ class Response
         return $this->set("Content-Type", $value);
     }
 
-    public function vary(string $value): self
+    public function vary(string $value): Response
     {
         return $this->set("Vary", $value);
     }

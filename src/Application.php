@@ -37,7 +37,7 @@ class Application
         return $this->request;
     }
 
-    public function disable(string $name): self
+    public function disable(string $name): Application
     {
         return $this->set($name, false);
     }
@@ -47,7 +47,7 @@ class Application
         return !$this->set($name);
     }
 
-    public function enable(string $name): self
+    public function enable(string $name): Application
     {
         return $this->set($name, true);
     }
@@ -57,7 +57,7 @@ class Application
         return (bool) $this->set($name);
     }
 
-    protected function lazyrouter(): self
+    protected function lazyrouter(): Application
     {
         if (!$this->router)
         {
@@ -90,7 +90,7 @@ class Application
         return $this;
     }
 
-    public function render(string $view, array $locals=array()): void
+    public function render(string $view, array $locals=null): void
     {
         if ($locals)
         {
@@ -165,7 +165,7 @@ class Application
         }
     }
 
-    protected function setParams($match2)
+    protected function setParams(array $match2): Application
     {
         foreach ($match2 as $match)
         {
@@ -177,6 +177,8 @@ class Application
                 }
             }
         }
+
+        return $this;
     }
 
     public function set(string $name, $value = null)
@@ -195,7 +197,7 @@ class Application
         return $this;
     }
 
-    public function use(): self
+    public function use(): Application
     {
         $num_args = func_num_args();
         if (!$num_args)
@@ -226,7 +228,7 @@ class Application
         return $this;
     }
 
-    public function __call(string $name, array $arguments): self
+    public function __call(string $name, array $arguments): Application
     {
         $methods = array_merge(Route::METHODS, array('all'));
         if (!in_array($name, $methods))

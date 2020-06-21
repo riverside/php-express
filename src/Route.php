@@ -23,7 +23,7 @@ class Route
         'put',
     );
 
-    public function __construct($path)
+    public function __construct(string $path)
     {
         $this->setPath($path);
     }
@@ -33,7 +33,7 @@ class Route
         return $this->callback;
     }
 
-    public function setCallback($callback): self
+    public function setCallback($callback): Route
     {
         $this->callback = $callback;
 
@@ -45,7 +45,7 @@ class Route
         return $this->path;
     }
 
-    public function setPath(string $path): self
+    public function setPath(string $path): Route
     {
         $this->path = $path;
 
@@ -57,7 +57,7 @@ class Route
         return $this->method;
     }
 
-    public function setMethod(string $method): self
+    public function setMethod(string $method): Route
     {
         $this->method = $method;
 
@@ -69,7 +69,7 @@ class Route
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name): Route
     {
         $this->name = $name;
 
@@ -81,14 +81,14 @@ class Route
         return $this->app;
     }
 
-    public function setApplication(Application $app): self
+    public function setApplication(Application $app): Route
     {
         $this->app = $app;
 
         return $this;
     }
 
-    public function __call(string $name, array $arguments): self
+    public function __call(string $name, array $arguments): Route
     {
         $methods = array_merge(self::METHODS, array('all', 'use'));
         if (!in_array($name, $methods))
@@ -102,7 +102,7 @@ class Route
         return $this;
     }
 
-    public function dispatch($argument, bool $use = false): self
+    public function dispatch($argument, bool $use = false): Route
     {
         if (is_callable($argument))
         {

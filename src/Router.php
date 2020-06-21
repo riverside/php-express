@@ -35,7 +35,7 @@ class Router
         $this->app->run();
     }
 
-    public function __call(string $name, array $arguments): self
+    public function __call(string $name, array $arguments): Router
     {
         $methods = array_merge(Route::METHODS, array('all'));
         if (!in_array($name, $methods))
