@@ -4,7 +4,7 @@
 PHP micro-framework inspired by Express.js
 
 ### Requirements
-- PHP >= 7.0
+- PHP >= 7.1
 
 ### Installation
 If Composer is not installed on your system yet, you may go ahead and install it using this command line:
@@ -100,4 +100,15 @@ $router->get('/about', function ($req, $res) {
 });
 
 $router->run();
+```
+#### Middleware
+```php
+$app->use(function($req, $res) {
+    $res->header('X-Frame-Options', 'DENY');
+    $res->header('X-Powered-By', false);
+});
+
+$app->use('/cors', function($req, $res) {
+    $res->header('Access-Control-Allow-Origin', '*');
+});
 ```
