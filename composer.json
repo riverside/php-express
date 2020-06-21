@@ -2,7 +2,7 @@
     "name": "riverside/php-express",
     "description": "PHP micro-framework inspired by Express.js",
     "type": "library",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": ["php", "express", "framework", "router", "application"],
     "homepage": "https://github.com/riverside/php-express",
     "license": "MIT",
@@ -16,7 +16,7 @@
     ],
     "require": {
         "ext-json": "*",
-        "php": ">=7.0"
+        "php": ">=7.1"
     },
     "require-dev": {
         "phpunit/phpunit": "8"
