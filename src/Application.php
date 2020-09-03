@@ -127,7 +127,7 @@ class Application
             foreach($parts as $i=>$part) {
                 if(substr( $part, 0, 1 ) == ":") {
                     $patterns[$part] = $i;
-                    $pattern .= "/" . "(\w+)";
+                    $pattern .= "/" . "(.+)";
                 } else {
                     $pattern .= "/" . $part;
                 }
