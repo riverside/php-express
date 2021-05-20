@@ -52,11 +52,11 @@ $app->get('/', function ($req, $res) {
     $res->send('root');
 });
 
-$app->get('/about', function ($req, $res) {
+$app->get('about', function ($req, $res) {
     $res->send('about');
 });
 
-$app->get('/random.text', function ($req, $res) {
+$app->get('random.text', function ($req, $res) {
     $res->send('random.text');
 });
 ```
@@ -91,12 +91,18 @@ $app->route('/book')
 <?php
 $router = new \PhpExpress\Router($app);
 
+$router->param('uuid', '[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}');
+
 $router->get('/', function ($req, $res) {
     $res->send('Birds home page');
 });
 
-$router->get('/about', function ($req, $res) {
+$router->get('about', function ($req, $res) {
     $res->send('About birds');
+});
+
+$router->get('ticket/:uuid/', function($req, $res) {
+    echo $req->params['uuid'];
 });
 
 $router->run();

@@ -90,6 +90,13 @@ class Application
         return $this;
     }
 
+    public function param($name, $regex = null): Application
+    {
+        $this->patterns[":$name"] = $regex ? "($regex)" : '(.*)';
+
+        return $this;
+    }
+
     public function render(string $view, array $locals=null): void
     {
         if ($locals)

@@ -2,7 +2,7 @@
     "name": "riverside/php-express",
     "description": "PHP micro-framework inspired by Express.js",
     "type": "library",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "keywords": ["php", "express", "framework", "router", "application"],
     "homepage": "https://github.com/riverside/php-express",
     "license": "MIT",
@@ -10,7 +10,7 @@
         {
             "name": "Dimitar Ivanov",
             "email": "info@zinoui.com",
-            "homepage": "http://zinoui.com",
+            "homepage": "https://zinoui.com",
             "role": "Developer"
         }
     ],

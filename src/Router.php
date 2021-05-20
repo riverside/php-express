@@ -19,6 +19,13 @@ class Router
         return $this->routes;
     }
 
+    public function param($name, $regex = null): Router
+    {
+        $this->app->param($name, $regex);
+
+        return $this;
+    }
+
     public function route(string $path): Route
     {
         $route = new Route($path);

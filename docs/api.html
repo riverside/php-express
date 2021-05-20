@@ -74,6 +74,7 @@
                                 <li><a href="#app-getRequest">getRequest()</a></li>
                                 <li><a href="#app-getResponse">getResponse()</a></li>
                                 <li><a href="#app-local">local()</a></li>
+                                <li><a href="#app-param">param()</a></li>
                                 <li><a href="#app-post">post()</a></li>
                                 <li><a href="#app-put">put()</a></li>
                                 <li><a href="#app-render">render()</a></li>
@@ -137,6 +138,7 @@
                                 <li><a href="#router-get">get()</a></li>
                                 <li><a href="#router-head">head()</a></li>
                                 <li><a href="#router-options">options()</a></li>
+                                <li><a href="#router-param">param()</a></li>
                                 <li><a href="#router-patch">patch()</a></li>
                                 <li><a href="#router-post">post()</a></li>
                                 <li><a href="#router-put">put()</a></li>
@@ -202,10 +204,23 @@ $app->get('/', function ($req, $res) {
                 </section>
                 <section>
                     <h3 class="h4" id="app-local">local([string $name = null] [, $value = null])</h3>
-                    <p></p>
+                    <p>Get/set local variables to use within the application.</p>
                     <pre class="prettyprint">
-$app->local(); // getter
 $app->local('name', 'Johnny Bravo'); // setter
+$app->local('name'); // return 'Johnny Bravo'
+$app->local(); // return all local variables
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="app-param">param($name [, $regex = null])</h3>
+                    <p>Add custom parameters to use in a route path.</p>
+                    <pre class="prettyprint">
+$app->param('uuid', '[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}');
+
+// Then use in route path
+$app->get('ticket/:uuid/', function($req, $res) {
+    echo $req->params['uuid'];
+});
 </pre>
                 </section>
                 <section>
@@ -598,6 +613,18 @@ $router->head('/', function($req, $res){
 $router->options('/', function($req, $res){
     $res->json(array('status' => 'OK'));
 });</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="router-param">param($name [, $regex = null])</h3>
+                    <p>Add custom parameters to use in a route path.</p>
+                    <pre class="prettyprint">
+$router->param('uuid', '[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}');
+
+// Then use in route path
+$router->get('ticket/:uuid/', function($req, $res) {
+    echo $req->params['uuid'];
+});
+</pre>
                 </section>
                 <section>
                     <h3 class="h4" id="router-patch">patch(string $path, $callback)</h3>
