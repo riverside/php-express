@@ -138,6 +138,7 @@ class Application
             }
             
             $use = $route->getMethod() == "use";
+            $found = 0;
             
             $pattern = sprintf("#^%s$#", str_replace(array_keys($this->patterns), array_values($this->patterns), $route->getPath()));
             if (!$use)
@@ -147,6 +148,7 @@ class Application
             	{
                     continue;
                 } else {
+                    $found = 1;
                 	array_shift($match2);
                     $this->setParams($match2);
 				}
@@ -159,6 +161,7 @@ class Application
 
             foreach ($route->getCallback() as $callback)
             {
+                $found = 1;
                 if (is_array($callback))
                 {
                     foreach ($callback as $arg)
@@ -168,6 +171,11 @@ class Application
                 } else {
                     $route->dispatch($callback, $use);
                 }
+            }
+
+            if ($found && !$use)
+            {
+                break;
             }
         }
     }
