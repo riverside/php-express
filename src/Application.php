@@ -16,10 +16,7 @@ class Application
 
     protected $response;
 
-    protected $patterns = array(
-        ':id'   => '(\d+)',
-        ':hash' => '([a-f\d+]{32})'
-    );
+    protected $patterns = array();
 
     public function __construct()
     {
@@ -131,6 +128,20 @@ class Application
 
         foreach ($this->router->getRoutes() as $route)
         {
+            $parts = explode('/', $route->getPath());
+            $patterns = [];
+            $pattern = "";
+            foreach($parts as $i=>$part) {
+                if(substr( $part, 0, 1 ) == ":") {
+                    $patterns[$part] = $i;
+                    $pattern .= "/" . "(.+)";
+                } else {
+                    $pattern .= "/" . $part;
+                }
+            }
+            $pattern = "#^" . substr($pattern, 1) . "$#";
+            $this->patterns = $patterns;
+
             $match1 = in_array($route->getMethod(), array('all', 'use', strtolower($this->request->method)));
             if (!$match1)
             {
@@ -140,7 +151,6 @@ class Application
             $use = $route->getMethod() == "use";
             $found = 0;
             
-            $pattern = sprintf("#^%s$#", str_replace(array_keys($this->patterns), array_values($this->patterns), $route->getPath()));
             if (!$use)
             {
             	$match2 = null;
@@ -150,7 +160,7 @@ class Application
                 } else {
                     $found = 1;
                 	array_shift($match2);
-                    $this->setParams($match2);
+                    $this->setParams();
 				}
             } else {
                 if (!($route->getPath() == '*' || preg_match($pattern, $this->request->path)))
@@ -180,19 +190,13 @@ class Application
         }
     }
 
-    protected function setParams(array $match2): Application
+    protected function setParams(): Application
     {
-        foreach ($match2 as $match)
-        {
-            foreach ($this->patterns as $param => $pattern)
+        $parts = explode('/', $this->request->path);
+            foreach ($this->patterns as $param => $i)
             {
-                if (preg_match("#^$pattern$#", $match))
-                {
-                    $this->request->params[substr($param, 1)] = $match;
-                }
+                    $this->request->params[substr($param, 1)] = $parts[$i];
             }
-        }
-
         return $this;
     }
 
