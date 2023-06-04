@@ -1,5 +1,8 @@
 # php-express
-[![CI](https://github.com/riverside/php-express/actions/workflows/test.yml/badge.svg)](https://github.com/riverside/php-express/actions/workflows/test.yml) [![Latest Stable Version](https://poser.pugx.org/riverside/php-express/v/stable)](https://packagist.org/packages/riverside/php-express) [![License](https://poser.pugx.org/riverside/php-express/license)](https://packagist.org/packages/riverside/php-express)
+[![CI](https://github.com/riverside/php-express/actions/workflows/test.yml/badge.svg)](https://github.com/riverside/php-express/actions/workflows/test.yml)
+[![pages-build-deployment](https://github.com/riverside/php-express/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/riverside/php-express/actions/workflows/pages/pages-build-deployment) 
+[![Latest Stable Version](https://poser.pugx.org/riverside/php-express/v/stable)](https://packagist.org/packages/riverside/php-express) 
+[![License](https://poser.pugx.org/riverside/php-express/license)](https://packagist.org/packages/riverside/php-express)
 
 PHP micro-framework inspired by Express.js
 
