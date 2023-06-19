@@ -1,7 +1,8 @@
 <?php
-namespace PhpExpress;
+namespace PhpExpress\Tests;
 
 use PHPUnit\Framework\TestCase;
+use PhpExpress\Router;
 
 class RouterTest extends TestCase
 {
