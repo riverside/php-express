@@ -1,4 +1,4 @@
-<phpunit bootstrap="src/autoload.php" colors="true" verbose="true">
+<phpunit bootstrap="vendor/autoload.php" colors="true" verbose="true">
     <testsuites>
         <testsuite name="php-express">
             <directory>./tests/</directory>
