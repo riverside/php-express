@@ -5,12 +5,24 @@ class Route
 {
     protected $callback;
 
+    /**
+     * @var string
+     */
     protected $method;
 
+    /**
+     * @var string
+     */
     protected $path;
 
+    /**
+     * @var string
+     */
     protected $name;
 
+    /**
+     * @var Application
+     */
     protected $app;
 
     const METHODS = array(

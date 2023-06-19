@@ -3,6 +3,9 @@ namespace PhpExpress;
 
 class Response
 {
+    /**
+     * @var Application
+     */
     public $app;
 
     protected $statusCode = 0;

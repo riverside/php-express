@@ -3,6 +3,9 @@ namespace PhpExpress;
 
 class Request
 {
+    /**
+     * @var Application
+     */
     public $app;
     public $body = array();
     public $cookies = array();

@@ -5,6 +5,9 @@ class Router
 {
     protected $routes = array();
 
+    /**
+     * @var Application
+     */
     protected $app;
 
     public function __construct($app = null)
@@ -14,6 +17,9 @@ class Router
             : new Application();
     }
 
+    /**
+     * @return Route[]
+     */
     public function getRoutes(): array
     {
         return $this->routes;

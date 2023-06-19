@@ -3,6 +3,9 @@ namespace PhpExpress;
 
 class Application
 {
+    /**
+     * @var Router
+     */
     public $router = null;
 
     protected $settings = array(
@@ -12,8 +15,14 @@ class Application
 
     protected $locals = array();
 
+    /**
+     * @var Request
+     */
     protected $request;
 
+    /**
+     * @var Response
+     */
     protected $response;
 
     protected $patterns = array(
