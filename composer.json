@@ -16,6 +16,7 @@
     ],
     "require": {
         "ext-json": "*",
+        "ext-apache": "*",
         "php": ">=7.1"
     },
     "require-dev": {
@@ -24,6 +25,11 @@
     "autoload": {
         "psr-4": {
             "PhpExpress\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PhpExpress\\Tests\\": "tests/"
         }
     },
     "scripts": {
