@@ -3,6 +3,7 @@ namespace PhpExpress\Tests;
 
 use PHPUnit\Framework\TestCase;
 use PhpExpress\Router;
+use PhpExpress\Route;
 
 class RouterTest extends TestCase
 {
@@ -15,5 +16,13 @@ class RouterTest extends TestCase
         foreach ($attributes as $attribute) {
             $this->assertClassHasAttribute($attribute, Router::class);
         }
+    }
+
+    public function testRoute()
+    {
+        $router = new Router();
+        $route = $router->route('/');
+
+        $this->assertInstanceOf(Route::class, $route);
     }
 }
