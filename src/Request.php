@@ -1,6 +1,11 @@
 <?php
 namespace PhpExpress;
 
+/**
+ * Class Request
+ *
+ * @package PhpExpress
+ */
 class Request
 {
     /**

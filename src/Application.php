@@ -1,6 +1,11 @@
 <?php
 namespace PhpExpress;
 
+/**
+ * Class Application
+ *
+ * @package PhpExpress
+ */
 class Application
 {
     /**

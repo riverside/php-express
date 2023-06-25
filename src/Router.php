@@ -1,8 +1,16 @@
 <?php
 namespace PhpExpress;
 
+/**
+ * Class Router
+ *
+ * @package PhpExpress
+ */
 class Router
 {
+    /**
+     * @var Route[]
+     */
     protected $routes = array();
 
     /**
@@ -10,7 +18,12 @@ class Router
      */
     protected $app;
 
-    public function __construct($app = null)
+    /**
+     * Router constructor.
+     *
+     * @param Application|null $app
+     */
+    public function __construct(Application $app = null)
     {
         $this->app = $app !== null && $app instanceof Application
             ? $app
@@ -25,13 +38,22 @@ class Router
         return $this->routes;
     }
 
-    public function param($name, $regex = null): Router
+    /**
+     * @param string $name
+     * @param string|null $regex
+     * @return Router
+     */
+    public function param(string $name, string $regex = null): Router
     {
         $this->app->param($name, $regex);
 
         return $this;
     }
 
+    /**
+     * @param string $path
+     * @return Route
+     */
     public function route(string $path): Route
     {
         $route = new Route($path);
@@ -48,6 +70,11 @@ class Router
         $this->app->run();
     }
 
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return Router
+     */
     public function __call(string $name, array $arguments): Router
     {
         $methods = array_merge(Route::METHODS, array('all'));

@@ -1,6 +1,11 @@
 <?php
 namespace PhpExpress;
 
+/**
+ * Class Response
+ *
+ * @package PhpExpress
+ */
 class Response
 {
     /**

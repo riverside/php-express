@@ -1,8 +1,16 @@
 <?php
 namespace PhpExpress;
 
+/**
+ * Class Route
+ *
+ * @package PhpExpress
+ */
 class Route
 {
+    /**
+     * @var array|string|callable
+     */
     protected $callback;
 
     /**
@@ -35,16 +43,28 @@ class Route
         'put',
     );
 
+    /**
+     * Route constructor.
+     *
+     * @param string $path
+     */
     public function __construct(string $path)
     {
         $this->setPath($path);
     }
 
+    /**
+     * @return array|callable|string
+     */
     public function getCallback()
     {
         return $this->callback;
     }
 
+    /**
+     * @param array|string|callable $callback
+     * @return Route
+     */
     public function setCallback($callback): Route
     {
         $this->callback = $callback;
@@ -52,11 +72,18 @@ class Route
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getPath(): string
     {
         return $this->path;
     }
 
+    /**
+     * @param string $path
+     * @return Route
+     */
     public function setPath(string $path): Route
     {
         $this->path = $path;
@@ -64,11 +91,18 @@ class Route
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getMethod(): string
     {
         return $this->method;
     }
 
+    /**
+     * @param string $method
+     * @return Route
+     */
     public function setMethod(string $method): Route
     {
         $this->method = $method;
@@ -76,11 +110,18 @@ class Route
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return Route
+     */
     public function setName(string $name): Route
     {
         $this->name = $name;
@@ -88,11 +129,18 @@ class Route
         return $this;
     }
 
+    /**
+     * @return Application
+     */
     public function getApplication(): Application
     {
         return $this->app;
     }
 
+    /**
+     * @param Application $app
+     * @return Route
+     */
     public function setApplication(Application $app): Route
     {
         $this->app = $app;
@@ -100,6 +148,11 @@ class Route
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return Route
+     */
     public function __call(string $name, array $arguments): Route
     {
         $methods = array_merge(self::METHODS, array('all', 'use'));
@@ -114,6 +167,11 @@ class Route
         return $this;
     }
 
+    /**
+     * @param callable|string $argument
+     * @param bool $use
+     * @return Route
+     */
     public function dispatch($argument, bool $use = false): Route
     {
         if (is_callable($argument))
