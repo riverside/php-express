@@ -44,7 +44,7 @@ class Route
     );
 
     /**
-     * Route constructor.
+     * Route constructor
      *
      * @param string $path
      */
@@ -54,6 +54,8 @@ class Route
     }
 
     /**
+     * Gets a callback
+     *
      * @return array|callable|string
      */
     public function getCallback()
@@ -62,6 +64,8 @@ class Route
     }
 
     /**
+     * Sets a callback
+     *
      * @param array|string|callable $callback
      * @return Route
      */
@@ -73,6 +77,8 @@ class Route
     }
 
     /**
+     * Gets a path
+     *
      * @return string
      */
     public function getPath(): string
@@ -81,6 +87,8 @@ class Route
     }
 
     /**
+     * Sets a path
+     *
      * @param string $path
      * @return Route
      */
@@ -92,6 +100,8 @@ class Route
     }
 
     /**
+     * Gets a method
+     *
      * @return string
      */
     public function getMethod(): string
@@ -100,6 +110,8 @@ class Route
     }
 
     /**
+     * Sets a method
+     *
      * @param string $method
      * @return Route
      */
@@ -111,6 +123,8 @@ class Route
     }
 
     /**
+     * Gets a name
+     *
      * @return string
      */
     public function getName(): string
@@ -119,6 +133,8 @@ class Route
     }
 
     /**
+     * Sets a name
+     *
      * @param string $name
      * @return Route
      */
@@ -130,6 +146,8 @@ class Route
     }
 
     /**
+     * Gets an application instance
+     *
      * @return Application
      */
     public function getApplication(): Application
@@ -138,6 +156,8 @@ class Route
     }
 
     /**
+     * Sets an application
+     *
      * @param Application $app
      * @return Route
      */
@@ -149,7 +169,7 @@ class Route
     }
 
     /**
-     * @param string $name
+     * @param string $name Accepts: delete, get, head, options, patch, post, put, all, use
      * @param array $arguments
      * @return Route
      */

@@ -13,11 +13,17 @@ class Application
      */
     public $router = null;
 
+    /**
+     * @var array
+     */
     protected $settings = array(
         'views' => 'views',
         'template' => 'layouts/default'
     );
 
+    /**
+     * @var array
+     */
     protected $locals = array();
 
     /**
@@ -30,47 +36,92 @@ class Application
      */
     protected $response;
 
+    /**
+     * @var array
+     */
     protected $patterns = array(
         ':id'   => '(\d+)',
         ':hash' => '([a-f\d+]{32})'
     );
 
+    /**
+     * Application constructor.
+     */
     public function __construct()
     {
         $this->request = new Request($this);
         $this->response = new Response($this);
     }
 
+    /**
+     * Return an instance of response object.
+     *
+     * @return Response
+     */
     public function getResponse(): Response
     {
         return $this->response;
     }
 
+    /**
+     * Return an instance of request object.
+     *
+     * @return Request
+     */
     public function getRequest(): Request
     {
         return $this->request;
     }
 
+    /**
+     * Sets the Boolean setting name to false
+     *
+     * @param string $name
+     * @return Application
+     */
     public function disable(string $name): Application
     {
         return $this->set($name, false);
     }
 
+    /**
+     * Returns true if the Boolean setting name is disabled (false)
+     *
+     * @param string $name
+     * @return bool
+     */
     public function disabled(string $name): bool
     {
         return !$this->set($name);
     }
 
+    /**
+     * Sets the Boolean setting name to true
+     *
+     * @param string $name
+     * @return Application
+     */
     public function enable(string $name): Application
     {
         return $this->set($name, true);
     }
 
+    /**
+     * Returns true if the setting name is enabled (true)
+     *
+     * @param string $name
+     * @return bool
+     */
     public function enabled(string $name): bool
     {
         return (bool) $this->set($name);
     }
 
+    /**
+     * Attempt to create an instance of Router, if such not already exists
+     *
+     * @return Application
+     */
     protected function lazyrouter(): Application
     {
         if (!$this->router)
@@ -81,6 +132,13 @@ class Application
         return $this;
     }
 
+    /**
+     * Get/set local variables to use within the application.
+     *
+     * @param string|null $name
+     * @param null $value
+     * @return Application|array|mixed|null
+     */
     public function local(string $name = null, $value = null)
     {
         $num = func_num_args();
@@ -104,13 +162,27 @@ class Application
         return $this;
     }
 
-    public function param($name, $regex = null): Application
+    /**
+     * Add custom parameters to use in a route path.
+     *
+     * @param string $name
+     * @param string|null $regex
+     * @return Application
+     */
+    public function param(string $name, string $regex = null): Application
     {
         $this->patterns[":$name"] = $regex ? "($regex)" : '(.*)';
 
         return $this;
     }
 
+    /**
+     * Returns the rendered HTML of a view. It accepts an optional parameter that is an array containing local variables
+     * for the view. It is like $res->render(), except it cannot send the rendered view to the client on its own.
+     *
+     * @param string $view
+     * @param array|null $locals
+     */
     public function render(string $view, array $locals=null): void
     {
         if ($locals)
@@ -127,6 +199,13 @@ class Application
         }
     }
 
+    /**
+     * Returns an instance of a single route, which you can then use to handle HTTP verbs with optional middleware.
+     * Use $app->route() to avoid duplicate route names (and thus typo errors).
+     *
+     * @param string $path
+     * @return Route
+     */
     public function route(string $path): Route
     {
         $this->lazyrouter();
@@ -136,7 +215,10 @@ class Application
         return $route;
     }
 
-    public function run()
+    /**
+     * Run the application.
+     */
+    public function run(): void
     {
         if (!$this->router)
         {
@@ -194,6 +276,12 @@ class Application
         }
     }
 
+    /**
+     * Set params
+     *
+     * @param array $match2
+     * @return Application
+     */
     protected function setParams(array $match2): Application
     {
         foreach ($match2 as $match)
@@ -210,6 +298,13 @@ class Application
         return $this;
     }
 
+    /**
+     * Assigns setting name to value.
+     *
+     * @param string $name
+     * @param mixed|null $value
+     * @return Application|mixed|null
+     */
     public function set(string $name, $value = null)
     {
         if (func_num_args() == 1)
@@ -226,6 +321,12 @@ class Application
         return $this;
     }
 
+    /**
+     * Mounts the specified middleware function at the specified path: the middleware function is executed when
+     * the base of the requested path matches path.
+     *
+     * @return Application
+     */
     public function use(): Application
     {
         $num_args = func_num_args();
@@ -257,6 +358,13 @@ class Application
         return $this;
     }
 
+    /**
+     * Routes HTTP (verb) requests to the specified path with the specified callback function.
+     *
+     * @param string $name Accepts: delete, get, head, options, patch, post, put, all
+     * @param array $arguments
+     * @return Application
+     */
     public function __call(string $name, array $arguments): Application
     {
         $methods = array_merge(Route::METHODS, array('all'));

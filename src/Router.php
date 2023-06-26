@@ -19,7 +19,7 @@ class Router
     protected $app;
 
     /**
-     * Router constructor.
+     * Router constructor
      *
      * @param Application|null $app
      */
@@ -39,6 +39,8 @@ class Router
     }
 
     /**
+     * Add custom parameters to use in a route path.
+     *
      * @param string $name
      * @param string|null $regex
      * @return Router
@@ -51,6 +53,9 @@ class Router
     }
 
     /**
+     * Returns an instance of a single route which you can then use to handle HTTP verbs with optional middleware.
+     * Use $router->route() to avoid duplicate route naming and thus typing errors.
+     *
      * @param string $path
      * @return Route
      */
@@ -64,6 +69,9 @@ class Router
         return $route;
     }
 
+    /**
+     * Run the application
+     */
     public function run(): void
     {
         $this->app->router = $this;
@@ -71,7 +79,9 @@ class Router
     }
 
     /**
-     * @param string $name
+     * Routes HTTP (verb) requests to the specified path with the specified callback function.
+     *
+     * @param string $name Accepts: delete, get, head, options, patch, post, put, all
      * @param array $arguments
      * @return Router
      */

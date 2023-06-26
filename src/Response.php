@@ -13,14 +13,29 @@ class Response
      */
     public $app;
 
+    /**
+     * @var int
+     */
     protected $statusCode = 0;
 
-    protected $statusMessage = NULL;
+    /**
+     * @var null|string
+     */
+    protected $statusMessage = null;
 
+    /**
+     * @var array
+     */
     protected $headers = array();
 
+    /**
+     * @var int
+     */
     public $headersSent = 0;
 
+    /**
+     * @var array
+     */
     public $locals = array();
 
     const STATUS_CODES = array(
@@ -89,12 +104,25 @@ class Response
         511 => 'Network Authentication Required' // RFC 6585
     );
 
+    /**
+     * Response constructor
+     *
+     * @param Application $app
+     */
     public function __construct(Application $app)
     {
         $this->app = $app;
         $this->headersSent = headers_sent() ? 1 : 0;
     }
 
+    /**
+     * Appends the specified value to the HTTP response header field. If the header is not already set, it creates
+     * the header with the specified value. The value parameter can be a string or an array.
+     *
+     * @param string $field
+     * @param $value
+     * @return Response
+     */
     public function append(string $field, $value): Response
     {
         $prev = $this->get($field);
@@ -112,6 +140,13 @@ class Response
         return $this->set($field, $value);
     }
 
+    /**
+     * Clears the cookie specified by name.
+     *
+     * @param string $name
+     * @param array $options
+     * @return Response
+     */
     public function clearCookie(string $name, array $options=array()): Response
     {
         $options = array_merge(array(
@@ -122,11 +157,25 @@ class Response
         return $this->cookie($name, "", $options);
     }
 
+    /**
+     * Alias of type()
+     *
+     * @param string $type
+     * @return Response
+     */
     public function contentType(string $type): Response
     {
         return $this->type($type);
     }
 
+    /**
+     * Sets cookie name to value. The value parameter may be a string or array converted to JSON.
+     *
+     * @param string $name
+     * @param string $value
+     * @param array $options
+     * @return Response
+     */
     public function cookie(string $name, string $value, array $options=array()): Response
     {
         $expire = isset($options['expire']) ? $options['expire'] : 0;
@@ -155,7 +204,12 @@ class Response
         return $this;
     }
 
-    public function end(string $data = NULL): void
+    /**
+     * Ends the response process. Use to quickly end the response without any data.
+     *
+     * @param string|null $data
+     */
+    public function end(string $data = null): void
     {
         if ($data)
         {
@@ -164,6 +218,12 @@ class Response
         exit;
     }
 
+    /**
+     * Returns the HTTP response header specified by field. The match is case-insensitive.
+     *
+     * @param string $field
+     * @return string|null
+     */
     public function get(string $field): ?string
     {
         $field = strtolower($field);
@@ -177,16 +237,35 @@ class Response
         return null;
     }
 
+    /**
+     * Return an array with response headers.
+     *
+     * @return array
+     */
     public function getHeaders(): array
     {
         return $this->headers;
     }
 
+    /**
+     * Alias of set()
+     *
+     * @param string $field
+     * @param $value
+     * @return Response
+     */
     public function header(string $field, $value): Response
     {
         return $this->set($field, $value);
     }
 
+    /**
+     * Sends a JSON response. This method sends a response (with the correct content-type) that is the parameter
+     * converted to a JSON string using json_encode().
+     *
+     * @param mixed $body
+     * @return Response
+     */
     public function json($body): Response
     {
         $body = json_encode($body);
@@ -198,11 +277,24 @@ class Response
         return $this->send($body);
     }
 
+    /**
+     * Sets the response Location HTTP header to the specified path parameter.
+     *
+     * @param string $path
+     * @return Response
+     */
     public function location(string $path): Response
     {
         return $this->set("Location", $path);
     }
 
+    /**
+     * Redirects to the URL derived from the specified path, with specified status, a positive integer that
+     * corresponds to an HTTP status code.
+     *
+     * @param string $path
+     * @param int $status
+     */
     public function redirect(string $path, int $status = 302): void
     {
         $this->location($path);
@@ -212,6 +304,12 @@ class Response
         $this->end();
     }
 
+    /**
+     * Renders a view and sends the rendered HTML string to the client.
+     *
+     * @param string $view
+     * @param array $locals
+     */
     public function render(string $view, array $locals = array()): void
     {
         $this->sendHeaders();
@@ -219,6 +317,12 @@ class Response
         $this->app->render($view, $locals);
     }
 
+    /**
+     * Sends the HTTP response.
+     *
+     * @param mixed $body
+     * @return Response
+     */
     public function send($body): Response
     {
         $this->sendHeaders();
@@ -246,6 +350,14 @@ class Response
         return $this;
     }
 
+    /**
+     * Send a raw HTTP header
+     *
+     * @param string $header
+     * @param bool $replace
+     * @param int $statusCode
+     * @return Response
+     */
     protected function sendHeader(string $header, bool $replace=true, int $statusCode=0): Response
     {
         if ($statusCode)
@@ -258,6 +370,11 @@ class Response
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @param string|bool $value
+     * @return Response
+     */
     protected function proceedHeader(string $name, $value): Response
     {
         if (is_string($value) && strlen($value) > 0)
@@ -269,7 +386,13 @@ class Response
         
         return $this;
     }
-    
+
+    /**
+     * Remove previously set headers
+     *
+     * @param string $name
+     * @return Response
+     */
     protected function removeHeader(string $name): Response
     {
         header_remove($name);
@@ -277,6 +400,9 @@ class Response
         return $this;
     }
 
+    /**
+     * @return Response
+     */
     protected function sendHeaders(): Response
     {
         foreach ($this->headers as $name => $value)
@@ -295,12 +421,25 @@ class Response
         return $this;
     }
 
+    /**
+     * Sets the response HTTP status code to statusCode and send its string representation as the response body.
+     *
+     * @param int $code
+     * @return Response
+     */
     public function sendStatus(int $code): Response
     {
         return $this->type("text")->status($code)->send($this->statusMessage);
     }
 
-    public function set($field, $value=NULL): Response
+    /**
+     * Sets the response's HTTP header field to value. To set multiple fields at once, pass an array as the parameter.
+     *
+     * @param array|string $field
+     * @param mixed|null $value
+     * @return Response
+     */
+    public function set($field, $value=null): Response
     {
         if (is_array($field)) {
             foreach ($field as $key => $val) {
@@ -313,6 +452,12 @@ class Response
         return $this;
     }
 
+    /**
+     * Sets the HTTP status for the response.
+     *
+     * @param int $code
+     * @return Response
+     */
     public function status(int $code): Response
     {
         $this->statusCode = $code;
@@ -324,6 +469,12 @@ class Response
         return $this;
     }
 
+    /**
+     * Sets the Content-Type HTTP header to the MIME type as determined by mime.lookup() for the specified type.
+     *
+     * @param string $value
+     * @return Response
+     */
     public function type(string $value): Response
     {
         $value = strtolower($value);
@@ -359,6 +510,12 @@ class Response
         return $this->set("Content-Type", $value);
     }
 
+    /**
+     * Adds the field to the Vary response header, if it is not there already.
+     *
+     * @param string $value
+     * @return Response
+     */
     public function vary(string $value): Response
     {
         return $this->set("Vary", $value);
