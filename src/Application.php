@@ -235,7 +235,7 @@ class Application
             
             $use = $route->getMethod() == "use";
             $found = 0;
-            
+
             $pattern = sprintf("#^%s$#", str_replace(array_keys($this->patterns), array_values($this->patterns), $route->getPath()));
             if (!$use)
             {
@@ -245,8 +245,9 @@ class Application
                     continue;
                 } else {
                     $found = 1;
-                	array_shift($match2);
-                    $this->setParams($match2);
+                	//array_shift($match2);
+                    $this->request->route = $route->getPath();
+                    $this->setParams();
 				}
             } else {
                 if (!($route->getPath() == '*' || preg_match($pattern, $this->request->path)))
@@ -279,19 +280,17 @@ class Application
     /**
      * Set params
      *
-     * @param array $match2
      * @return Application
      */
-    protected function setParams(array $match2): Application
+    protected function setParams(): Application
     {
-        foreach ($match2 as $match)
+        $route_parts = explode('/', $this->request->route);
+        $path_parts = explode('/', $this->request->path);
+        foreach ($route_parts as $key => $value)
         {
-            foreach ($this->patterns as $param => $pattern)
+            if (strpos($value, ':') === 0)
             {
-                if (preg_match("#^$pattern$#", $match))
-                {
-                    $this->request->params[substr($param, 1)] = $match;
-                }
+                $this->request->params[substr($value, 1)] = $path_parts[$key];
             }
         }
 
