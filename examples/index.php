@@ -13,6 +13,7 @@
         <li><a href="03-controllers/">Controllers</a></li>
         <li><a href="04-router/">Router</a></li>
         <li><a href="05-post/">POST method</a></li>
+        <li><a href="06-params/">Params</a></li>
     </ul>
 
 </body>

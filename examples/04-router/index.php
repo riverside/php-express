@@ -8,7 +8,7 @@ $router->get('/', function ($req, $res) {
 });
 
 $router->get('route-2.html', function ($req, $res) {
-    $res->send('<h1>Route 2</h1><a href="./">&laquo; Prev</a></a>');
+    $res->send('<h1>Route 2</h1><a href="./">&laquo; Prev</a>');
 });
 
 $router->run();

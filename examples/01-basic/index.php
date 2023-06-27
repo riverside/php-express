@@ -8,7 +8,7 @@ $app->get('/', function ($req, $res) {
 });
 
 $app->get('page-2.html', function ($req, $res) {
-    $res->send('<h1>Page 2</h1><a href="./">&laquo; Prev</a></a>');
+    $res->send('<h1>Page 2</h1><a href="./">&laquo; Prev</a>');
 });
 
 $app->run();
