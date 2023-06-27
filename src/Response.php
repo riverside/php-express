@@ -141,6 +141,29 @@ class Response
     }
 
     /**
+     * Sets the HTTP response Content-Disposition header field to "attachment"
+     *
+     * @param string|null $filename
+     * @return Response
+     */
+    public function attachment(string $filename=null): Response
+    {
+        $value = $filename
+            ? 'attachment; filename="' . basename($filename) . '"'
+            : 'attachment';
+
+        $this->set('Content-Disposition', $value);
+
+        if ($filename)
+        {
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+            $this->type($ext, true);
+        }
+
+        return $this;
+    }
+
+    /**
      * Clears the cookie specified by name.
      *
      * @param string $name
@@ -161,11 +184,12 @@ class Response
      * Alias of type()
      *
      * @param string $type
+     * @param bool $fallback
      * @return Response
      */
-    public function contentType(string $type): Response
+    public function contentType(string $type, bool $fallback=false): Response
     {
-        return $this->type($type);
+        return $this->type($type, $fallback);
     }
 
     /**
@@ -202,6 +226,45 @@ class Response
         setcookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
 
         return $this;
+    }
+
+    /**
+     * Transfers the file at path as an "attachment". Typically, browsers will prompt the user for download.
+     *
+     * @param string $path
+     * @param string|null $filename
+     */
+    public function download(string $path, string $filename=null)
+    {
+        $name = $filename ? $filename : basename($path);
+
+        $this
+            ->set('Pragma', 'public')
+            ->set('Expires', 0)
+            ->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
+            ->set('Cache-Control', 'private')
+            ->set('Content-Transfer-Encoding', 'binary');
+
+        $this->attachment($name);
+
+        $length = @filesize($path);
+        if ($length > 0)
+        {
+            $this->set('Content-Length', $length);
+        }
+
+        $this->sendHeaders();
+
+        $chunkSize = 1024 * 1024;
+        $handle = fopen($path, 'rb');
+        while (!feof($handle))
+        {
+            $buffer = fread($handle, $chunkSize);
+            echo $buffer;
+            ob_flush();
+            flush();
+        }
+        fclose($handle);
     }
 
     /**
@@ -264,11 +327,12 @@ class Response
      * converted to a JSON string using json_encode().
      *
      * @param mixed $body
+     * @param int $flags
      * @return Response
      */
-    public function json($body): Response
+    public function json($body, int $flags = 0): Response
     {
-        $body = json_encode($body);
+        $body = json_encode($body, $flags);
 
         if (!$this->get("Content-Type")) {
             $this->type("json");
@@ -286,6 +350,57 @@ class Response
     public function location(string $path): Response
     {
         return $this->set("Location", $path);
+    }
+
+    /**
+     * Detect mime type
+     *
+     * @param string $value
+     * @return string
+     */
+    protected static function mimeLookup(string $value)
+    {
+        $value = strtolower($value);
+
+        switch ($value) {
+            case "html":
+                $mimeType = "text/html";
+                break;
+            case "js":
+            case "javascript":
+                $mimeType = "application/javascript";
+                break;
+            case "json":
+                $mimeType = "application/json";
+                break;
+            case "css":
+                $mimeType = "text/css";
+                break;
+            case "text":
+                $mimeType = "text/plain";
+                break;
+            case "png":
+            case "apng":
+            case "gif":
+            case "webp":
+            case "avif":
+                $mimeType = "image/$value";
+                break;
+            case "jpg":
+            case "jpeg":
+                $mimeType = "image/jpeg";
+                break;
+            case "svg":
+                $mimeType = "image/svg+xml";
+                break;
+            case "pdf":
+                $mimeType = "application/pdf";
+                break;
+            default:
+                $mimeType = "";
+        }
+
+        return $mimeType;
     }
 
     /**
@@ -470,44 +585,23 @@ class Response
     }
 
     /**
-     * Sets the Content-Type HTTP header to the MIME type as determined by mime.lookup() for the specified type.
+     * Sets the Content-Type HTTP header to the MIME type as determined by mimeLookup() for the specified type.
      *
      * @param string $value
+     * @param bool $fallback
      * @return Response
      */
-    public function type(string $value): Response
+    public function type(string $value, bool $fallback=false): Response
     {
-        $value = strtolower($value);
-
-        switch ($value) {
-            case "html":
-                $value = "text/html";
-                break;
-            case "js":
-            case "javascript":
-                $value = "application/javascript";
-                break;
-            case "json":
-                $value = "application/json";
-                break;
-            case "css":
-                $value = "text/css";
-                break;
-            case "text":
-                $value = "text/plain";
-                break;
-            case "png":
-            case "gif":
-            case "webp":
-                $value = "image/$value";
-                break;
-            case "jpg":
-            case "jpeg":
-                $value = "image/jpeg";
-                break;
+        $contentType = self::mimeLookup($value);
+        if ($contentType)
+        {
+            $this->set("Content-Type", $contentType);
+        } elseif ($fallback) {
+            $this->set("Content-Type", "application/octet-stream");
         }
 
-        return $this->set("Content-Type", $value);
+        return $this;
     }
 
     /**
