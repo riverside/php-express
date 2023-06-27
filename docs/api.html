@@ -105,6 +105,9 @@
                                 <li><a href="#req-session">session</a></li>
                                 <li><a href="#req-xhr">xhr</a></li>
                                 <li><span>Methods</span></li>
+                                <li><a href="#req-accept">accept()</a></li>
+                                <li><a href="#req-acceptEncoding">acceptEncoding()</a></li>
+                                <li><a href="#req-acceptLanguage">acceptLanguage()</a></li>
                                 <li><a href="#req-get">get()</a></li>
                                 <li><a href="#req-header">header()</a></li>
                                 <li><a href="#req-is">is()</a></li>
@@ -113,9 +116,11 @@
                         <li><a href="#response">Response</a>
                             <ul class="nav">
                                 <li><a href="#res-append">append()</a></li>
+                                <li><a href="#res-attachment">attachment()</a></li>
                                 <li><a href="#res-clearCookie">clearCookie()</a></li>
                                 <li><a href="#res-contentType">contentType()</a></li>
                                 <li><a href="#res-cookie">cookie()</a></li>
+                                <li><a href="#res-download">download()</a></li>
                                 <li><a href="#res-end">end()</a></li>
                                 <li><a href="#res-get">get()</a></li>
                                 <li><a href="#res-getHeaders">getHeaders()</a></li>
@@ -411,6 +416,24 @@ $req->xhr
                     <p></p>
                 </section>
                 <section>
+                    <h3 class="h4" id="req-accept">accept(string $mimeType)</h3>
+                    <p>Checks if the specified content type is acceptable, based on the request's Accept HTTP header field.</p>
+                    <pre class="prettyprint">$req->accept('application/json');
+// => true</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-acceptEncoding">acceptEncoding(string $encoding)</h3>
+                    <p>Checks if the specified encoding is acceptable, based on the request's Accept-Encoding HTTP header field.</p>
+                    <pre class="prettyprint">$req->acceptEncoding('gzip');
+// => true</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="req-acceptLanguage">acceptLanguage(string $language)</h3>
+                    <p>Checks if the specified language is acceptable, based on the request's Accept-Language HTTP header field.</p>
+                    <pre class="prettyprint">$req->acceptLanguage('en-US');
+// => true</pre>
+                </section>
+                <section>
                     <h3 class="h4" id="req-get">get(string $name)</h3>
                     <p>Returns the specified HTTP request header field (case-insensitive match).</p>
                     <pre class="prettyprint">$req->get('Content-Type');</pre>
@@ -435,6 +458,17 @@ $res->append('Warning', '199 Miscellaneous warning');
 </pre>
                 </section>
                 <section>
+                    <h3 class="h4" id="res-attachment">attachment([string $filename=null])</h3>
+                    <p>Sets the HTTP response Content-Disposition header field to "attachment".</p>
+                    <pre class="prettyprint">
+$res->attachment();
+// Content-Disposition: attachment
+$res->attachment('path/to/logo.png');
+// Content-Disposition: attachment; filename="logo.png"
+// Content-Type: image/png
+</pre>
+                </section>
+                <section>
                     <h3 class="h4" id="res-clearCookie">clearCookie(string $name [, array $options=array()])</h3>
                     <p>Clears the cookie specified by name.</p>
                     <pre class="prettyprint">
@@ -443,7 +477,7 @@ $res->clearCookie('name', array('path' => '/admin'));
 </pre>
                 </section>
                 <section>
-                    <h3 class="h4" id="res-contentType">contentType(string $type)</h3>
+                    <h3 class="h4" id="res-contentType">contentType(string $type [, bool $fallback=false])</h3>
                     <p>Alias of <a href="#res-type">type()</a></p>
                 </section>
                 <section>
@@ -453,6 +487,14 @@ $res->clearCookie('name', array('path' => '/admin'));
                     <pre class="prettyprint">
 $res->cookie('name', 'Dimitar', array('domain' => '.example.com', 'path' => '/admin', 'secure' => true));
 $res->cookie('rememberme', '1', array('expires' => time()+60*60*24*30, 'httpOnly' => true));
+</pre>
+                </section>
+                <section>
+                    <h3 class="h4" id="res-download">download(string $path[, string $filename = NULL])</h3>
+                    <p>Transfers the file at path as an "attachment". Typically, browsers will prompt the user for download.</p>
+                    <pre class="prettyprint">
+$res->download('/report-12345.pdf');
+$res->download('/report-12345.pdf', 'report.pdf');
 </pre>
                 </section>
                 <section>
@@ -487,12 +529,13 @@ $res->getHeaders();
                     <p>Alias of <a href="#res-set">set()</a></p>
                 </section>
                 <section>
-                    <h3 class="h4" id="res-json">json($body)</h3>
+                    <h3 class="h4" id="res-json">json($body [, int $flags = 0])</h3>
                     <p>Sends a JSON response. This method sends a response (with the correct content-type) that is the
                         parameter converted to a JSON string using <code>json_encode()</code>.</p>
                     <pre class="prettyprint">
 $res->json(null);
 $res->json(array('user' => 'Dimitar'));
+$res->json(array('user' => 'Dimitar'), JSON_PRETTY_PRINT);
 $res->status(500)->json(array('error' => 'message'));
 </pre>
                 </section>
@@ -560,14 +603,15 @@ $res->status(400)->send('Bad Request');
 </pre>
                 </section>
                 <section>
-                    <h3 class="h4" id="res-type">type(string $value)</h3>
-                    <p>Sets the Content-Type HTTP header to the MIME type as determined by mime.lookup() for the specified type.</p>
+                    <h3 class="h4" id="res-type">type(string $value [, bool $fallback=false])</h3>
+                    <p>Sets the Content-Type HTTP header to the MIME type as determined by mimeLookup() for the specified type.</p>
                     <pre class="prettyprint">
 $res->type('html');               // => 'text/html'
 $res->type('text');               // => 'text/plain'
 $res->type('json');               // => 'application/json'
 $res->type('application/json');   // => 'application/json'
 $res->type('png');                // => 'image/png'
+$res->type('unknown', true);      // => 'application/octet-stream'
 </pre>
                 </section>
                 <section>
