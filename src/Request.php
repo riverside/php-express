@@ -40,28 +40,28 @@ class Request
      *
      * @var string|null
      */
-    public $hostname = NULL;
+    public $hostname = null;
 
     /**
      * The IP address from which the user is viewing the current page.
      *
      * @var string|null
      */
-    public $ip = NULL;
+    public $ip = null;
 
     /**
      * Which request method was used to access the page; i.e. 'GET', 'HEAD', 'POST', 'PUT', etc.
      *
      * @var string|null
      */
-    public $method = NULL;
+    public $method = null;
 
     /**
      * The URI which was given in order to access this page.
      *
      * @var string|null
      */
-    public $originalUrl = NULL;
+    public $originalUrl = null;
 
     /**
      * @var array
@@ -73,7 +73,7 @@ class Request
      *
      * @var string|null
      */
-    public $path = NULL;
+    public $path = null;
 
     /**
      * The port on the server machine being used by the web server for communication.
@@ -89,7 +89,7 @@ class Request
      *
      * @var string|null
      */
-    public $protocol = NULL;
+    public $protocol = null;
 
     /**
      * An associative array of variables passed to the current script via the URL parameters.
@@ -110,7 +110,7 @@ class Request
      *
      * @var string|null
      */
-    public $scheme = NULL;
+    public $scheme = null;
 
     /**
      * A Boolean property that is true if a TLS connection is established.
@@ -130,9 +130,9 @@ class Request
      * A Boolean property that is true if the request's X-Requested-With header field is "XMLHttpRequest",
      * indicating that the request was issued by a client library such as jQuery.
      *
-     * @var int
+     * @var bool
      */
-    public $xhr = 0;
+    public $xhr = false;
 
     /**
      * Request constructor
@@ -160,11 +160,148 @@ class Request
         $this->port = (int) $_SERVER['SERVER_PORT'];
         $this->protocol = $_SERVER['SERVER_PROTOCOL'];
         $this->query = &$_GET;
-        $this->route = '';//FIXME;
+        //$this->route = '';
         $this->scheme = $_SERVER['REQUEST_SCHEME'];
-        $this->secure = $_SERVER['REQUEST_SCHEME'] == 'https';
+        $this->secure = strtolower($_SERVER['REQUEST_SCHEME']) == 'https';
         $this->session = &$_SESSION;
-        $this->xhr = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' ? 1 : 0;
+        $this->xhr = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+    }
+
+    /**
+     * Checks if the specified content type is acceptable, based on the request's Accept HTTP header field
+     *
+     * @param string $mimeType
+     * @return bool
+     */
+    public function accept(string $mimeType): bool
+    {
+        $header = $this->get('Accept');
+        if (!$header)
+        {
+            return false;
+        }
+
+        $mimeType = strtolower($mimeType);
+        $arr = explode(',', $header);
+        $arr = array_map('trim', $arr);
+        $arr = array_map('strtolower', $arr);
+        foreach ($arr as $item)
+        {
+            if (strpos($item, ';q=') !== false)
+            {
+                list($item,) = explode(';q=', $item);
+            }
+
+            // Accept: text/html
+            // Value: text/html
+            if ($item == $mimeType)
+            {
+                return true;
+            }
+
+            // Accept: */*
+            if ($item == '*/*')
+            {
+                return true;
+            }
+
+            // Accept: text/*
+            // Value: text/html
+            if (strpos($item, '/*') !== false
+                && substr($item, 0, strpos($item, '/')) == substr($mimeType, 0, strpos($mimeType, '/')))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the specified encoding is acceptable, based on the request's Accept-Encoding HTTP header field
+     *
+     * @param string $encoding
+     * @return bool
+     */
+    public function acceptEncoding(string $encoding): bool
+    {
+        $header = $this->get('Accept-Encoding');
+        if (!$header)
+        {
+            return false;
+        }
+
+        $encoding = strtolower($encoding);
+        $arr = explode(',', $header);
+        $arr = array_map('trim', $arr);
+        $arr = array_map('strtolower', $arr);
+        foreach ($arr as $item)
+        {
+            $weight = 1;
+            if (strpos($item, ';q=') !== false)
+            {
+                list($item, $weight) = explode(';q=', $item);
+            }
+
+            if ($weight == 0 && in_array($item, array('*', 'identity')))
+            {
+                return false;
+            }
+
+            if ($item == '*')
+            {
+                return true;
+            }
+
+            if ($item == $encoding)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the specified language is acceptable, based on the request's Accept-Language HTTP header field
+     *
+     * @param string $language
+     * @return bool
+     */
+    public function acceptLanguage(string $language): bool
+    {
+        $header = $this->get('Accept-Language');
+        if (!$header)
+        {
+            return false;
+        }
+
+        $language = strtolower($language);
+        $arr = explode(',', $header);
+        $arr = array_map('trim', $arr);
+        $arr = array_map('strtolower', $arr);
+        foreach ($arr as $item)
+        {
+            if (strpos($item, ';q=') !== false)
+            {
+                list($item,) = explode(';q=', $item);
+            }
+
+            // Accept: en-US
+            // Value: en-US
+            if ($item == $language)
+            {
+                return true;
+            }
+
+            // Accept: *
+            if ($item == '*')
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
