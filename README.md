@@ -13,17 +13,9 @@ If Composer is not installed on your system yet, you may go ahead and install it
 ```
 $ curl -sS https://getcomposer.org/installer | php
 ```
-Next, add the following require entry to the <code>composer.json</code> file in the root of your project.
-```json
-{
-    "require" : {
-        "riverside/php-express" : "*"
-    }
-}
+Use Composer to install php-express and its dependencies:
 ```
-Finally, use Composer to install php-express and its dependencies:
-```
-$ php composer.phar install 
+$ composer require riverside/php-express
 ```
 ### Routing
 ```php
