@@ -161,7 +161,7 @@ class Request
         $this->protocol = $_SERVER['SERVER_PROTOCOL'];
         $this->query = &$_GET;
         //$this->route = '';
-        $this->scheme = $this->getRequestScheme();
+        $this->scheme = self::getRequestScheme();
         $this->secure = $this->scheme == 'https';
         $this->session = &$_SESSION;
         $this->xhr = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
@@ -331,7 +331,9 @@ class Request
     {
         $name = strtolower($name);
 
-        $headers = apache_request_headers();
+        $headers = function_exists('apache_request_headers')
+            ? apache_request_headers()
+            : self::getRequestHeaders();
 
         foreach ($headers as $header => $value)
         {
@@ -423,5 +425,22 @@ class Request
             return 'https';
         }
         return 'http';
+    }
+
+    /**
+     * Fetch all HTTP request headers
+     *
+     * @return array
+     */
+    protected static function getRequestHeaders(): array
+    {
+        $arh = array();
+        foreach (headers_list() as $header)
+        {
+            $header = explode(":", $header);
+            $arh[array_shift($header)] = trim(implode(":", $header));
+        }
+
+        return $arh;
     }
 }
