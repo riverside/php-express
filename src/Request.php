@@ -154,7 +154,7 @@ class Request
         $this->files = &$_FILES;
         $this->hostname = $_SERVER['HTTP_HOST'];
         $this->ip = $_SERVER['REMOTE_ADDR'];
-        $this->method = $_SERVER['REQUEST_METHOD'];
+        $this->method = strtoupper($_SERVER['REQUEST_METHOD']);
         $this->originalUrl = $_SERVER['REQUEST_URI'];
         $this->path = $path;
         $this->port = (int) $_SERVER['SERVER_PORT'];
@@ -165,6 +165,23 @@ class Request
         $this->secure = $this->scheme == 'https';
         $this->session = &$_SESSION;
         $this->xhr = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+
+        // Make data payloads available in $this->body for other HTTP verbs.
+        if (
+            $this->method !== 'POST'
+            && $this->get('content-type') == 'application/x-www-form-urlencoded'
+        ) {
+            parse_str(file_get_contents('php://input'), $_POST);
+        }
+
+        // Add support for multipart/form-data parsing for other HTTP verbs in PHP >=8.4.
+        if (
+            $this->method !== 'POST'
+            && $this->get('content-type') == 'multipart/form-data'
+            && function_exists('request_parse_body')
+        ) {
+            [$_POST, $_FILES] = call_user_func('request_parse_body');
+        }
     }
 
     /**
