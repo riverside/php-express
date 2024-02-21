@@ -161,8 +161,8 @@ class Request
         $this->protocol = $_SERVER['SERVER_PROTOCOL'];
         $this->query = &$_GET;
         //$this->route = '';
-        $this->scheme = $_SERVER['REQUEST_SCHEME'];
-        $this->secure = strtolower($_SERVER['REQUEST_SCHEME']) == 'https';
+        $this->scheme = $this->getRequestScheme();
+        $this->secure = $this->scheme == 'https';
         $this->session = &$_SESSION;
         $this->xhr = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
     }
@@ -352,5 +352,59 @@ class Request
         list($contentType,) = explode(";", $contentType);
 
         return $contentType == $type;
+    }
+
+    /**
+     * Returns the request scheme, i.e. 'http' or 'https'.
+     *
+     * @return string
+     */
+    protected static function getRequestScheme() : string
+    {
+        // Modern servers will have the HTTPS header set to 'on' or '1'.
+        if (
+            isset($_SERVER['HTTPS'])
+            && (
+                strtolower($_SERVER['HTTPS']) == 'on'
+                || $_SERVER['HTTPS'] == 1
+            )
+        ) {
+            return 'https';
+        }
+        // Some reverse proxies and load balencers will have the
+        // HTTP_X_FORWARDED_PROTO header set to 'https'.
+        else if (
+            isset($_SERVER['HTTP_X_FORWARDED_PROTO'])
+            && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https'
+        ) {
+
+            return 'https';
+        }
+        // Other reverse proxies and load balencers will have the
+        // HTTP_FRONT_END_HTTPS headers set to 'on' or '1'.
+        else if (
+            isset($_SERVER['HTTP_FRONT_END_HTTPS'])
+            && (
+                strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) == 'on'
+                || $_SERVER['HTTP_FRONT_END_HTTPS'] == 1
+            )
+        ) {
+            return 'https';
+        }
+        // Apache server may have the REQUEST_SCHEME header available.
+        else if (
+            isset($_SERVER['REQUEST_SCHEME'])
+            && strtolower($_SERVER['REQUEST_SCHEME']) == 'https'
+        ) {
+            return 'https';
+        }
+        // If all else fails, try the standard SSL server port '443'.
+        else if (
+            isset($_SERVER['SERVER_PORT'])
+            && intval($_SERVER['SERVER_PORT']) === 443
+        ) {
+            return 'https';
+        }
+        return 'http';
     }
 }
