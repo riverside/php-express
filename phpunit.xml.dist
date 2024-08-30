@@ -1,0 +1,16 @@
+<phpunit bootstrap="vendor/autoload.php" colors="true" verbose="true">
+    <testsuites>
+        <testsuite name="php-express">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <server name="HTTP_HOST" value="localhost"/>
+        <server name="REMOTE_ADDR" value="127.0.0.1"/>
+        <server name="REQUEST_METHOD" value="GET"/>
+        <server name="REQUEST_URI" value="/"/>
+        <server name="SERVER_PORT" value="80"/>
+        <server name="SERVER_PROTOCOL" value="HTTP/1.1"/>
+        <server name="REQUEST_SCHEME" value="http"/>
+    </php>
+</phpunit>
