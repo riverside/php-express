@@ -7,6 +7,8 @@ PHP micro-framework inspired by Express.js
 
 ### Requirements
 - PHP >= 7.1
+- PHP extensions:
+  - JSON (`ext-json`)
 
 ### Installation
 If Composer is not installed on your system yet, you may go ahead and install it using this command line:
