@@ -11,6 +11,6 @@
         <server name="REQUEST_URI" value="/"/>
         <server name="SERVER_PORT" value="80"/>
         <server name="SERVER_PROTOCOL" value="HTTP/1.1"/>
-        <server name="REQUEST_SCHEME" value="http" />
+        <server name="REQUEST_SCHEME" value="http"/>
     </php>
 </phpunit>
