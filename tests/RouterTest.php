@@ -1,9 +1,11 @@
 <?php
-namespace PhpExpress\Tests;
+declare(strict_types=1);
+
+namespace Riverside\Express\Tests;
 
 use PHPUnit\Framework\TestCase;
-use PhpExpress\Router;
-use PhpExpress\Route;
+use Riverside\Express\Router;
+use Riverside\Express\Route;
 
 class RouterTest extends TestCase
 {

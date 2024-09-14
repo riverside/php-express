@@ -1,8 +1,10 @@
 <?php
-namespace PhpExpress\Tests;
+declare(strict_types=1);
+
+namespace Riverside\Express\Tests;
 
 use PHPUnit\Framework\TestCase;
-use PhpExpress\Request;
+use Riverside\Express\Request;
 
 class RequestTest extends TestCase
 {
