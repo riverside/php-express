@@ -12,7 +12,6 @@
     <meta name="twitter:url" content="https://riverside.github.io/php-express/">
     <meta name="twitter:site" content="@zino_ui">
     <meta name="twitter:creator" content="@DimitarIvanov">
-    <meta name="twitter:domain" content="zinoui.com">
     <meta property="og:title" content="PHP Express">
     <meta property="og:site_name" content="Zino UI">
     <meta property="og:url" content="https://riverside.github.io/php-express/">
@@ -158,7 +157,7 @@
                 <!-- Application -->
                 <h2 class="h3" id="application">Application</h2>
                 <p>The app object conventionally denotes the PHP Express application.</p>
-                <pre class="prettyprint">$app = new \PhpExpress\Application();</pre>
+                <pre class="prettyprint">$app = new \Riverside\Express\Application();</pre>
                 <section>
                     <h3 class="h4" id="app-delete">delete(string $path, $callback)</h3>
                     <p>Routes HTTP DELETE requests to the specified path with the specified callback function.</p>
@@ -624,7 +623,7 @@ $res->type('unknown', true);      // => 'application/octet-stream'
                     <h2 class="h3" id="router">Router</h2>
                     <p>A router object is an isolated instance of middleware and routes. You can think of it as a "mini-application,"
                         capable only of performing middleware and routing functions. Every php-express application has a built-in app router.</p>
-                    <pre class="prettyprint">$router = new \PhpExpress\Router();</pre>
+                    <pre class="prettyprint">$router = new \Riverside\Express\Router();</pre>
                 </section>
                 <section>
                     <h3 class="h4" id="router-delete">delete(string $path, $callback)</h3>
