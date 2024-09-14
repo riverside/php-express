@@ -2,7 +2,7 @@
     "name": "riverside/php-express",
     "description": "PHP micro-framework inspired by Express.js",
     "type": "library",
-    "version": "1.0.3",
+    "version": "2.0.0",
     "keywords": ["php", "express", "framework", "router", "application"],
     "homepage": "https://github.com/riverside/php-express",
     "license": "MIT",
@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "PhpExpress\\": "src/"
+            "Riverside\\Express\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PhpExpress\\Tests\\": "tests/"
+            "Riverside\\Express\\Tests\\": "tests/"
         }
     },
     "scripts": {
