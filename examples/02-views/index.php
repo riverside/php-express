@@ -1,7 +1,7 @@
 <?php
 include __DIR__ . '/../../src/autoload.php';
 
-$app = new \PhpExpress\Application();
+$app = new \Riverside\Express\Application();
 $app->set("views", __DIR__ . "/views");
 
 $app->get('/', function ($req, $res) {

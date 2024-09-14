@@ -9,7 +9,7 @@ spl_autoload_register(function ($class) {
     }
 });
 
-$app = new \PhpExpress\Application();
+$app = new \Riverside\Express\Application();
 $app->set("views", __DIR__ . "/views");
 
 $app->get('/', '\controllers\basic@home');

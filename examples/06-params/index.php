@@ -1,7 +1,7 @@
 <?php
 include __DIR__ . '/../../src/autoload.php';
 
-$app = new \PhpExpress\Application();
+$app = new \Riverside\Express\Application();
 
 $app->param('username', '[a-zA-Z\d]{1,32}');
 $app->param('wildcard', '.*');

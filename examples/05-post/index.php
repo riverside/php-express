@@ -1,7 +1,7 @@
 <?php
 include __DIR__ . '/../../src/autoload.php';
 
-$router = new \PhpExpress\Router();
+$router = new \Riverside\Express\Router();
 
 $router->get('/', function ($req, $res) {
     $html = <<<EEE

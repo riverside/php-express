@@ -1,7 +1,7 @@
 <?php
 include __DIR__ . '/../../src/autoload.php';
 
-$router = new \PhpExpress\Router();
+$router = new \Riverside\Express\Router();
 
 $router->get('/', function ($req, $res) {
     $res->send('<h1>Route 1</h1><a href="route-2.html">Next &raquo;</a>');
