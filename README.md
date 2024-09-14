@@ -19,7 +19,7 @@ Next, add the following require entry to the <code>composer.json</code> file in 
 ```json
 {
     "require" : {
-        "riverside/php-express" : "*"
+        "riverside/php-express" : "^2.0"
     }
 }
 ```
@@ -30,7 +30,7 @@ $ php composer.phar install
 ### Routing
 ```php
 <?php
-$app = new \PhpExpress\Application();
+$app = new \Riverside\Express\Application();
 
 $app->get('/', function ($req, $res) {
      $res->send('hello world');
@@ -90,10 +90,10 @@ $app->route('/book')
     });
 ```
 
-#### PhpExpress Router
+#### Router
 ```php
 <?php
-$router = new \PhpExpress\Router($app);
+$router = new \Riverside\Express\Router($app);
 
 $router->param('uuid', '[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}');
 
