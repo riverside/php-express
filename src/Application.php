@@ -1,10 +1,12 @@
 <?php
-namespace PhpExpress;
+declare(strict_types=1);
+
+namespace Riverside\Express;
 
 /**
  * Class Application
  *
- * @package PhpExpress
+ * @package Riverside\Express
  */
 class Application
 {

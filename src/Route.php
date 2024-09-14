@@ -1,10 +1,12 @@
 <?php
-namespace PhpExpress;
+declare(strict_types=1);
+
+namespace Riverside\Express;
 
 /**
  * Class Route
  *
- * @package PhpExpress
+ * @package Riverside\Express
  */
 class Route
 {
