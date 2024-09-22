@@ -336,7 +336,7 @@ class Response
     {
         $body = json_encode($body, $flags);
 
-        if (!$this->get("Content-Type")) {
+        if ($this->get("Content-Type") != "application/json") {
             $this->type("json");
         }
 
