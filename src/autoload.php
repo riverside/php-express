@@ -1,7 +1,7 @@
 <?php
 spl_autoload_register(function ($className)
 {
-    $prefix = "Riverside\Express\\";
+    $prefix = "Riverside\\Express\\";
 
     $length = strlen($prefix);
     if (strncmp($prefix, $className, $length) !== 0)
