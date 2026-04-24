@@ -19,7 +19,7 @@ Next, add the following require entry to the <code>composer.json</code> file in 
 ```json
 {
     "require" : {
-        "riverside/php-express" : "^2.0"
+        "riverside/php-express" : "^2.0.1"
     }
 }
 ```
